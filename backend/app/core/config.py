@@ -6,7 +6,13 @@ class Settings(BaseSettings):
 
     OPENAI_API_KEY: str = ""
 
-    GOOGLE_SHEET_ID: str = ""
+    GEMINI_API_KEY: str
+
+    GOOGLE_SHEET_NAME: str
+
+    GOOGLE_WORKSHEET_NAME: str
+
+    GOOGLE_CREDENTIALS: str
 
     SECRET_KEY: str
 

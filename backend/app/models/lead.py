@@ -88,6 +88,26 @@ class Lead(Base):
         default="New Lead"
     )
 
+    priority: Mapped[str] = mapped_column(
+    String(20),
+    default="Medium"
+    )
+
+    recommended_action: Mapped[str] = mapped_column(
+        String(500),
+        nullable=True
+    )
+
+    follow_up_in_hours: Mapped[int] = mapped_column(
+        Integer,
+        default=24
+    )
+
+    ai_reason: Mapped[str] = mapped_column(
+        String(1000),
+        nullable=True
+    )
+
     # ==========================
     # Audit Fields
     # ==========================

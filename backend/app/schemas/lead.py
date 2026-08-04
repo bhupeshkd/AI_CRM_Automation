@@ -28,5 +28,9 @@ class LeadResponse(BaseModel):
     qualification_status: str
     pipeline_stage: str
     created_at: datetime
+    priority: str
+    recommended_action: str | None = None
+    follow_up_in_hours: int
+    ai_reason: str | None = None
 
     model_config = ConfigDict(from_attributes=True)

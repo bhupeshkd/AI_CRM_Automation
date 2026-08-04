@@ -1,35 +1,56 @@
+import json
+
+from google import genai
+
+from app.core.config import settings
+
+
+client = genai.Client(api_key=settings.GEMINI_API_KEY)
+
+
 class LeadQualification:
 
     @staticmethod
-    def qualify(budget: int, timeline: str):
+    def qualify(data: dict):
 
-        score = 0
+        prompt = f"""
+You are an expert Automobile CRM AI.
 
-        if budget >= 1500000:
-            score += 50
-        elif budget >= 1000000:
-            score += 35
-        else:
-            score += 20
+Analyze the following lead.
 
-        timeline = timeline.lower()
+Lead Details:
+{json.dumps(data, indent=2)}
 
-        if "immediate" in timeline:
-            score += 50
+Return ONLY valid JSON.
 
-        elif "1 month" in timeline:
-            score += 35
+{{
+    "lead_score": 90,
+    "qualification_status": "Hot",
+    "pipeline_stage": "Qualified",
+    "priority": "High",
+    "recommended_action": "Book a test drive within 24 hours.",
+    "follow_up_in_hours": 2,
+    "reason": "Customer has high budget and immediate buying intent."
+}}
 
-        elif "3 month" in timeline:
-            score += 20
+Do not return markdown.
+Do not use ```json.
+Return only JSON.
+"""
 
-        if score >= 80:
-            status = "Hot"
+        response = client.models.generate_content(
+            model="gemini-3.5-flash",
+            contents=prompt
+        )
 
-        elif score >= 50:
-            status = "Warm"
+        text = response.text.strip()
 
-        else:
-            status = "Cold"
+        # Remove markdown if Gemini returns it
+        if text.startswith("```"):
+            text = (
+                text.replace("```json", "")
+                .replace("```", "")
+                .strip()
+            )
 
-        return score, status
+        return json.loads(text)
