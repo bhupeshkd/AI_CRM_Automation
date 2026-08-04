@@ -1,0 +1,22 @@
+Website Form
+      │
+      ▼
+FastAPI
+      │
+      ▼
+Lead Service
+      │
+      ├──────────────┐
+      ▼              ▼
+Duplicate      AI Qualification
+      │              │
+      └──────┬───────┘
+             ▼
+       Save Lead
+             │
+      ┌──────┼────────────┐
+      ▼      ▼            ▼
+ Activity  Conversation  Google Sheet
+      │
+      ▼
+ CRM Timeline
