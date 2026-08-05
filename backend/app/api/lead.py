@@ -1,5 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+from app.core.security import get_current_user
+from app.models.user import User
 
 from app.database.database import get_db
 from app.schemas.lead import LeadCreate, LeadResponse
@@ -14,16 +16,14 @@ router = APIRouter(
 @router.post(
     "/",
     response_model=LeadResponse,
-    status_code=201,
+    status_code=201
 )
 def create_lead(
     lead: LeadCreate,
     db: Session = Depends(get_db),
+    # current_user: User = Depends(get_current_user)
 ):
-    return LeadService.create_lead(
-        db,
-        lead
-    )
+    return LeadService.create_lead(db, lead)
 
 @router.get(
     "/",
@@ -47,3 +47,4 @@ def get_lead(
         db,
         lead_id
     )
+

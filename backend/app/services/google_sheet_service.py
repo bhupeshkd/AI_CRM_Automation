@@ -64,6 +64,8 @@ class GoogleSheetService:
                 lead.recommended_action,
                 lead.follow_up_in_hours,
                 lead.ai_reason,
+                lead.notes,
+                lead.tags,
                 str(lead.created_at),
             ]
 
