@@ -142,7 +142,7 @@ def render_sidebar():
         )
 
         st.page_link(
-            "pages/4_Followups.py",
+            "pages/4_FollowUps.py",
             label="📞 Follow-ups",
             use_container_width=True,
         )
