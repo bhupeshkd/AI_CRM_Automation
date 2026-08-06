@@ -1,4 +1,7 @@
 import gspread
+import json
+import os
+import tempfile
 from google.oauth2.service_account import Credentials
 
 from app.core.config import settings
@@ -17,8 +20,24 @@ class GoogleSheetService:
         print("\n========== GOOGLE SHEET ==========")
 
         print("Loading Service Account...")
+        if settings.GOOGLE_CREDENTIALS_JSON:
+
+            with tempfile.NamedTemporaryFile(
+                mode="w",
+                delete=False,
+                suffix=".json",
+            ) as temp_file:
+
+                temp_file.write(settings.GOOGLE_CREDENTIALS_JSON)
+
+                credentials_path = temp_file.name
+
+        else:
+
+            credentials_path = settings.GOOGLE_CREDENTIALS
+
         credentials = Credentials.from_service_account_file(
-            settings.GOOGLE_CREDENTIALS,
+            credentials_path,
             scopes=cls.SCOPES,
         )
         print("✅ Credentials Loaded")

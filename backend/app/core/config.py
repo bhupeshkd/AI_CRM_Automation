@@ -27,6 +27,8 @@ class Settings(BaseSettings):
 
     GOOGLE_CREDENTIALS: str
 
+    GOOGLE_CREDENTIALS_JSON: str = ""
+
     # ==========================
     # JWT Authentication
     # ==========================

@@ -19,6 +19,7 @@ env/
 # ==========================
 
 .env
+.env.*
 
 # ==========================
 # IDE
@@ -49,14 +50,21 @@ htmlcov/
 *.log
 
 # ==========================
-# Alembic Cache
+# Database
 # ==========================
 
 *.db
-
+*.sqlite3
 
 # ==========================
 # Google Credentials
 # ==========================
 
 backend/app/credentials/
+backend/app/credentials/*.json
+
+# ==========================
+# Streamlit Secrets
+# ==========================
+
+.streamlit/secrets.toml
