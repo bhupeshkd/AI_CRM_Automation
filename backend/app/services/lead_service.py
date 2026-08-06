@@ -2,11 +2,19 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from app.ai.qualification import LeadQualification
+
 from app.repositories.lead_repository import LeadRepository
-from app.schemas.lead import LeadCreate
+from app.repositories.activity_repository import ActivityRepository
+from app.repositories.appointment_repository import AppointmentRepository
+from app.repositories.conversation_repository import ConversationRepository
+from app.repositories.follow_up_repository import FollowUpRepository
+
+from app.schemas.lead import LeadCreate, LeadUpdate
+
 from app.services.activity_service import ActivityService
 from app.services.google_sheet_service import GoogleSheetService
 from app.services.automation_service import AutomationService
+
 
 class LeadService:
 
@@ -160,3 +168,85 @@ class LeadService:
             )
 
         return lead
+
+    @staticmethod
+    def update_lead(
+        db: Session,
+        lead_id: str,
+        lead: LeadUpdate
+    ):
+
+        db_lead = LeadRepository.get_by_id(
+            db,
+            lead_id
+        )
+
+        if not db_lead:
+            raise HTTPException(
+                status_code=404,
+                detail="Lead not found"
+            )
+
+        data = lead.model_dump(
+            exclude_unset=True
+        )
+
+        return LeadRepository.update(
+            db,
+            db_lead,
+            data
+        )
+
+    @staticmethod
+    def delete_lead(
+        db: Session,
+        lead_id: str
+    ):
+
+        db_lead = LeadRepository.get_by_id(
+            db,
+            lead_id
+        )
+
+        if not db_lead:
+            raise HTTPException(
+                status_code=404,
+                detail="Lead not found"
+            )
+
+        # ==========================================
+        # Delete Child Records
+        # ==========================================
+
+        ActivityRepository.delete_by_lead_id(
+            db,
+            lead_id
+        )
+
+        ConversationRepository.delete_by_lead_id(
+            db,
+            lead_id
+        )
+
+        FollowUpRepository.delete_by_lead_id(
+            db,
+            lead_id
+        )
+
+        AppointmentRepository.delete_by_lead_id(
+            db,
+            lead_id
+        )
+
+        # ==========================================
+        # Delete Lead
+        # ==========================================
+
+        LeadRepository.delete(
+            db,
+            db_lead
+        )
+
+        return {
+            "message": "Lead deleted successfully."
+        }

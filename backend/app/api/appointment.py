@@ -73,3 +73,16 @@ def update_appointment(
         appointment_id,
         appointment
     )
+
+@router.delete(
+    "/{appointment_id}"
+)
+def delete_appointment(
+    appointment_id: str,
+    db: Session = Depends(get_db),
+):
+
+    return AppointmentService.delete_appointment(
+        db,
+        appointment_id
+    )

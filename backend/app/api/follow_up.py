@@ -9,6 +9,12 @@ from app.schemas.follow_up import (
     FollowUpResponse,
 )
 from app.services.follow_up_service import FollowUpService
+from app.schemas.follow_up import (
+    FollowUpCreate,
+    FollowUpUpdate,
+    FollowUpResponse,
+)
+
 
 router = APIRouter(
     prefix="/follow-ups",
@@ -53,4 +59,34 @@ def get_follow_ups_by_lead(
     return FollowUpService.get_follow_ups_by_lead(
         db,
         lead_id
+    )
+
+@router.patch(
+    "/{follow_up_id}",
+    response_model=FollowUpResponse
+)
+def update_follow_up(
+    follow_up_id: str,
+    follow_up: FollowUpUpdate,
+    db: Session = Depends(get_db),
+):
+
+    return FollowUpService.update_follow_up(
+        db,
+        follow_up_id,
+        follow_up
+    )
+
+
+@router.delete(
+    "/{follow_up_id}"
+)
+def delete_follow_up(
+    follow_up_id: str,
+    db: Session = Depends(get_db),
+):
+
+    return FollowUpService.delete_follow_up(
+        db,
+        follow_up_id
     )

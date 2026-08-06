@@ -4,7 +4,7 @@ from app.core.security import get_current_user
 from app.models.user import User
 
 from app.database.database import get_db
-from app.schemas.lead import LeadCreate, LeadResponse
+from app.schemas.lead import LeadCreate, LeadUpdate, LeadResponse
 from app.services.lead_service import LeadService
 
 router = APIRouter(
@@ -48,3 +48,30 @@ def get_lead(
         lead_id
     )
 
+@router.patch(
+    "/{lead_id}",
+    response_model=LeadResponse
+)
+def update_lead(
+    lead_id: str,
+    lead: LeadUpdate,
+    db: Session = Depends(get_db)
+):
+    return LeadService.update_lead(
+        db,
+        lead_id,
+        lead
+    )
+
+
+@router.delete(
+    "/{lead_id}"
+)
+def delete_lead(
+    lead_id: str,
+    db: Session = Depends(get_db)
+):
+    return LeadService.delete_lead(
+        db,
+        lead_id
+    )

@@ -10,6 +10,12 @@ class ConversationCreate(BaseModel):
     message_type: str = "Note"
 
 
+class ConversationUpdate(BaseModel):
+    sender: str | None = None
+    message: str | None = None
+    message_type: str | None = None
+
+
 class ConversationResponse(BaseModel):
     id: str
     lead_id: str

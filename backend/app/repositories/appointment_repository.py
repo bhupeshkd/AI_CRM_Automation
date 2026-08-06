@@ -61,3 +61,15 @@ class AppointmentRepository:
         db.refresh(appointment)
 
         return appointment
+
+    @staticmethod
+    def delete_by_lead_id(
+        db: Session,
+        lead_id: str
+    ):
+
+        db.query(Appointment).filter(
+            Appointment.lead_id == lead_id
+        ).delete()
+
+        db.commit()
