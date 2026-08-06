@@ -1,7 +1,5 @@
-import gspread
 import json
-import os
-import tempfile
+import gspread
 from google.oauth2.service_account import Credentials
 
 from app.core.config import settings
@@ -17,41 +15,69 @@ class GoogleSheetService:
 
     @classmethod
     def get_worksheet(cls):
+
         print("\n========== GOOGLE SHEET ==========")
-
         print("Loading Service Account...")
-        if settings.GOOGLE_CREDENTIALS_JSON:
 
-            with tempfile.NamedTemporaryFile(
-                mode="w",
-                delete=False,
-                suffix=".json",
-            ) as temp_file:
+        # ==========================
+        # Render (Environment JSON)
+        # ==========================
+        if settings.GOOGLE_CREDENTIALS_JSON.strip():
 
-                temp_file.write(settings.GOOGLE_CREDENTIALS_JSON)
+            try:
+                credentials_info = json.loads(
+                    settings.GOOGLE_CREDENTIALS_JSON
+                )
 
-                credentials_path = temp_file.name
+                credentials_info["private_key"] = (
+                    credentials_info["private_key"]
+                    .replace("\\n", "\n")
+                )
+
+                credentials = Credentials.from_service_account_info(
+                    credentials_info,
+                    scopes=cls.SCOPES,
+                )
+
+                print("Using ENV JSON Credentials")
+
+            except Exception as e:
+                raise Exception(
+                    f"Invalid GOOGLE_CREDENTIALS_JSON: {e}"
+                )
+
+        # ==========================
+        # Local Development
+        # ==========================
+        elif settings.GOOGLE_CREDENTIALS:
+
+            credentials = Credentials.from_service_account_file(
+                settings.GOOGLE_CREDENTIALS,
+                scopes=cls.SCOPES,
+            )
+
+            print("Using Local Credential File")
 
         else:
 
-            credentials_path = settings.GOOGLE_CREDENTIALS
+            raise Exception(
+                "Google Credentials not configured."
+            )
 
-        credentials = Credentials.from_service_account_file(
-            credentials_path,
-            scopes=cls.SCOPES,
-        )
         print("✅ Credentials Loaded")
 
         print("Authorizing...")
         client = gspread.authorize(credentials)
         print("✅ Authorization Successful")
 
-        print("Opening Spreadsheet...")
+        print(f"Opening Spreadsheet: {settings.GOOGLE_SHEET_NAME}")
         spreadsheet = client.open(settings.GOOGLE_SHEET_NAME)
         print("✅ Spreadsheet Opened")
 
-        print(f"Opening Worksheet : {settings.GOOGLE_WORKSHEET_NAME}")
-        worksheet = spreadsheet.worksheet(settings.GOOGLE_WORKSHEET_NAME)
+        print(f"Opening Worksheet: {settings.GOOGLE_WORKSHEET_NAME}")
+        worksheet = spreadsheet.worksheet(
+            settings.GOOGLE_WORKSHEET_NAME
+        )
         print("✅ Worksheet Opened")
 
         print("==================================\n")
@@ -64,6 +90,7 @@ class GoogleSheetService:
         print("\n========== SHEET SYNC START ==========")
 
         try:
+
             worksheet = cls.get_worksheet()
 
             row = [
@@ -88,17 +115,18 @@ class GoogleSheetService:
                 str(lead.created_at),
             ]
 
-            print("Appending lead to Google Sheet...")
-
+            print("Appending lead...")
             worksheet.append_row(row)
 
             print("✅ Lead Synced Successfully")
             print("========== SHEET SYNC END ==========\n")
 
         except Exception as e:
+
             print(
-                f"❌ GOOGLE SHEET ERROR: "
-                f"{type(e).__name__}: {e}"
+                f"❌ GOOGLE SHEET ERROR: {type(e).__name__}: {e}"
             )
+
             print("====================================\n")
+
             raise
