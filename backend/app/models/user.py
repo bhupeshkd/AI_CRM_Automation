@@ -13,6 +13,7 @@ class User(Base):
     # ==========================
     # Primary Key
     # ==========================
+
     id: Mapped[str] = mapped_column(
         String(36),
         primary_key=True,
@@ -22,6 +23,7 @@ class User(Base):
     # ==========================
     # Basic Information
     # ==========================
+
     full_name: Mapped[str] = mapped_column(
         String(100),
         nullable=False
@@ -44,6 +46,7 @@ class User(Base):
     # ==========================
     # Authentication
     # ==========================
+
     password_hash: Mapped[str] = mapped_column(
         String(255),
         nullable=False
@@ -52,28 +55,32 @@ class User(Base):
     # ==========================
     # Authorization
     # ==========================
+
     role: Mapped[str] = mapped_column(
         String(20),
+        nullable=False,
         default="Sales Executive"
     )
 
     is_active: Mapped[bool] = mapped_column(
         Boolean,
+        nullable=False,
         default=True
     )
 
     # ==========================
     # Audit Fields
     # ==========================
+
     created_at: Mapped[datetime] = mapped_column(
         DateTime,
+        nullable=False,
         default=datetime.utcnow,
-        nullable=False
     )
 
     updated_at: Mapped[datetime] = mapped_column(
         DateTime,
+        nullable=False,
         default=datetime.utcnow,
         onupdate=datetime.utcnow,
-        nullable=False
     )

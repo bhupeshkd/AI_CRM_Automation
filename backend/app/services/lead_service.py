@@ -2,6 +2,7 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from app.ai.qualification import LeadQualification
+from app.ai.communication import AICommunication
 
 from app.repositories.lead_repository import LeadRepository
 from app.repositories.activity_repository import ActivityRepository
@@ -63,9 +64,30 @@ class LeadService:
             print("AI Response:")
             print(result)
 
-        except Exception as e:
+            # ==========================================
+            # AI Communication
+            # ==========================================
 
-            print(f"AI Qualification Error : {e}")
+            print("Generating AI Communication...")
+
+            communication = AICommunication.generate(
+                {
+                    "full_name": lead.full_name,
+                    "vehicle_interest": lead.vehicle_interest,
+                    "budget": lead.budget,
+                    "purchase_timeline": lead.purchase_timeline,
+                    "city": lead.city,
+                    "qualification_status": result["qualification_status"],
+                    "priority": result["priority"],
+                    "recommended_action": result["recommended_action"]
+                }
+            )
+
+            print("AI Communication:")
+            print(communication)
+
+        except Exception as e:
+            print(f"AI Error: {type(e).__name__}: {e}")
 
             result = {
                 "lead_score": 50,
@@ -74,7 +96,28 @@ class LeadService:
                 "priority": "Medium",
                 "recommended_action": "Manual follow-up required.",
                 "follow_up_in_hours": 24,
-                "reason": "AI service unavailable. Rule engine fallback used."
+                "reason": "AI service unavailable. Rule engine fallback used.",
+                "tags": [
+                    "Manual Review",
+                    "Warm Lead"
+                ],
+                "notes": (
+                    "AI qualification service was unavailable. "
+                    "Please review this lead manually."
+                )
+            }
+
+            communication = {
+                "email_subject": "Thank you for your enquiry",
+                "email_body": (
+                    f"Dear {lead.full_name},\n\n"
+                    "Thank you for your interest. Our sales team will contact you shortly.\n\n"
+                    "Regards,\nSales Team"
+                ),
+                "whatsapp_message": (
+                    f"Hi {lead.full_name}, thank you for your enquiry. "
+                    "Our sales team will connect with you soon."
+                )
             }
 
             print("Fallback Rule Engine Used.")
@@ -96,6 +139,9 @@ class LeadService:
         db_lead.follow_up_in_hours = result["follow_up_in_hours"]
         db_lead.ai_reason = result["reason"]
 
+        db_lead.tags = ", ".join(result["tags"])
+        db_lead.notes = result["notes"]
+
         db.commit()
         db.refresh(db_lead)
 
@@ -114,19 +160,17 @@ class LeadService:
             print("Google Sheet Sync Completed.")
 
         except Exception as e:
-
-            print("\nGoogle Sheet Sync Failed")
-            print(type(e).__name__)
-            print(e)
+            print(f"Google Sheet Sync Failed: {type(e).__name__}: {e}")
 
         try:
             AutomationService.process_new_lead(
                 db,
-                db_lead
+                db_lead,
+                communication
             )
 
         except Exception as e:
-            print(f"Automation Error : {e}")
+            print(f"Automation Error: {type(e).__name__}: {e}")
 
         # ==========================================
         # Activity Log

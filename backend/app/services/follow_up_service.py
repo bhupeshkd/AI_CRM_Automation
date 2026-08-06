@@ -1,13 +1,12 @@
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from app.repositories.follow_up_repository import FollowUpRepository
-from app.services.activity_service import ActivityService
 from app.schemas.follow_up import (
     FollowUpCreate,
     FollowUpUpdate,
 )
-
-from fastapi import HTTPException
+from app.services.activity_service import ActivityService
 
 class FollowUpService:
 
@@ -31,7 +30,7 @@ class FollowUpService:
                 f"for {db_follow_up.scheduled_at}"
             )
         )
-
+        
         return db_follow_up
 
     @staticmethod
@@ -94,7 +93,6 @@ class FollowUpService:
         )
 
         return follow_up
-
 
     @staticmethod
     def delete_follow_up(

@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from datetime import datetime
 
 from app.models.appointment import Appointment
 from app.schemas.appointment import AppointmentCreate
@@ -34,7 +35,7 @@ class AppointmentRepository:
     @staticmethod
     def get_by_datetime(
         db: Session,
-        appointment_date
+        appointment_date: datetime
     ):
 
         return (

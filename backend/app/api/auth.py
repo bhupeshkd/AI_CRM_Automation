@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.core.security import get_current_user
@@ -29,8 +29,15 @@ router = APIRouter(
 )
 def register(
     user: UserCreate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
+
+    if current_user.role != "Admin":
+        raise HTTPException(
+            status_code=403,
+            detail="Only Admin can create users."
+        )
 
     return AuthService.register(
         db,

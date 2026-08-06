@@ -33,11 +33,13 @@ class Conversation(Base):
     )
 
     message_type: Mapped[str] = mapped_column(
-        String(30),
-        default="Note"
+    String(30),
+    nullable=False,
+    default="Note"
     )
 
     created_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow
+    DateTime,
+    nullable=False,
+    default=datetime.utcnow
     )

@@ -2,8 +2,7 @@ from sqlalchemy.orm import Session
 
 from app.models.follow_up import FollowUp
 from app.schemas.follow_up import (
-    FollowUpCreate,
-    FollowUpUpdate,
+    FollowUpCreate
 )
 
 

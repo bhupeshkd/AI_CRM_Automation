@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel,ConfigDict
 
 
 class FollowUpCreate(BaseModel):
@@ -24,6 +24,6 @@ class FollowUpResponse(BaseModel):
     remarks: str | None
     created_at: datetime
 
-    model_config = {
-        "from_attributes": True
-    }
+    model_config = ConfigDict(
+    from_attributes=True
+    )

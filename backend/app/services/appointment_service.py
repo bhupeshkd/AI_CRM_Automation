@@ -72,7 +72,9 @@ class AppointmentService:
         return db_appointment
 
     @staticmethod
-    def get_all_appointments(db: Session):
+    def get_all_appointments(
+        db: Session
+        ):
         return AppointmentRepository.get_all(db)
 
     @staticmethod
@@ -136,7 +138,7 @@ class AppointmentService:
         # Missed Appointment Automation
         # ==========================
 
-        if appointment.status == "Missed":
+        if appointment.status.lower() == "missed":
             AutomationService.handle_missed_appointment(
                 db,
                 appointment

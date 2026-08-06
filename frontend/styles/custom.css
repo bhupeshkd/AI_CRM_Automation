@@ -1,0 +1,170 @@
+/* ==========================================
+   1. DYNAMIC THEME COLOR VARIABLES
+   ========================================== */
+
+/* Dark Mode Theme (Default) */
+[data-theme="dark"],
+.stApp {
+    --bg-main: #0B0F19;
+    --bg-card: rgba(30, 41, 59, 0.6);
+    --bg-sidebar: #0F172A;
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --border-color: rgba(255, 255, 255, 0.08);
+    --hover-bg: rgba(255, 255, 255, 0.06);
+    --input-bg: rgba(15, 23, 42, 0.8);
+}
+
+/* Light Mode Theme */
+[data-theme="light"] {
+    --bg-main: #F8FAFC;
+    --bg-card: #FFFFFF;
+    --bg-sidebar: #F1F5F9;
+    --text-primary: #0F172A;
+    --text-secondary: #64748B;
+    --border-color: rgba(0, 0, 0, 0.08);
+    --hover-bg: rgba(0, 0, 0, 0.05);
+    --input-bg: #FFFFFF;
+}
+
+/* ==========================================
+   2. GLOBAL CANVAS & LAYOUT STYLING
+   ========================================== */
+.stApp {
+    background-color: var(--bg-main) !important;
+    color: var(--text-primary) !important;
+}
+
+.block-container {
+    padding-top: 2rem !important;
+    padding-bottom: 3rem !important;
+    max-width: 95% !important;
+}
+
+#MainMenu {
+    visibility: hidden;
+}
+
+footer {
+    visibility: hidden;
+}
+
+/* ==========================================
+   3. SIDEBAR & NATIVE NAVIGATION
+   ========================================== */
+[data-testid="stSidebar"] {
+    background-color: var(--bg-sidebar) !important;
+    border-right: 1px solid var(--border-color) !important;
+}
+
+[data-testid="stSidebarNav"] a {
+    border-radius: 8px !important;
+    padding: 10px 14px !important;
+    color: var(--text-secondary) !important;
+    font-weight: 500 !important;
+    font-size: 0.92rem !important;
+    transition: all 0.2s ease-in-out !important;
+    margin: 2px 8px !important;
+}
+
+[data-testid="stSidebarNav"] a:hover {
+    background-color: var(--hover-bg) !important;
+    color: var(--text-primary) !important;
+    transform: translateX(4px);
+}
+
+[data-testid="stSidebarNav"] a[aria-current="page"] {
+    background: linear-gradient(90deg, #6366F1 0%, #4F46E5 100%) !important;
+    color: #FFFFFF !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3) !important;
+}
+
+/* ==========================================
+   4. KPI CARDS STYLING
+   ========================================== */
+.metric-card,
+.lead-kpi-card,
+.appt-kpi-card,
+.fol-kpi-card,
+.conv-kpi-card {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 12px;
+    padding: 16px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.metric-label,
+.lead-kpi-label,
+.appt-kpi-label,
+.fol-kpi-label,
+.conv-kpi-label {
+    font-size: 0.78rem;
+    color: var(--text-secondary) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+}
+
+.metric-value,
+.lead-kpi-value,
+.appt-kpi-value,
+.fol-kpi-value,
+.conv-kpi-value {
+    font-size: 1.85rem;
+    font-weight: 700;
+    margin-top: 4px;
+    color: var(--text-primary) !important;
+}
+
+/* Form inputs background adaptation */
+div[data-testid="stForm"],
+.stTextInput>div>div>input {
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+}
+
+
+/* ==========================================
+   HIDE STREAMLIT'S DEFAULT SIDEBAR NAVIGATION
+   ========================================== */
+[data-testid="stSidebarNav"] {
+    display: none !important;
+}
+
+/* Ensure the custom sidebar fills the height cleanly */
+[data-testid="stSidebarUserContent"] {
+    padding-top: 1rem !important;
+}
+
+/* Style custom sidebar buttons to match the image UI */
+[data-testid="stSidebar"] .stButton>button {
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 10px !important;
+    padding: 10px 16px !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+[data-testid="stSidebar"] .stButton>button:hover {
+    border-color: rgba(99, 102, 241, 0.5) !important;
+    background-color: var(--hover-bg) !important;
+    transform: translateY(-1px);
+}
+
+/* Red Logout Button */
+[data-testid="stSidebar"] .stButton>button[kind="primary"] {
+    background: #FF4B4B !important;
+    color: #FFFFFF !important;
+    border: none !important;
+}
+
+[data-testid="stSidebar"] .stButton>button[kind="primary"]:hover {
+    background: #E63939 !important;
+}

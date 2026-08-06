@@ -56,13 +56,14 @@ class AuthService:
         # ==========================
 
         db_user = User(
-            full_name=user.full_name,
-            email=user.email,
-            phone=user.phone,
-            password_hash=hash_password(
-                user.password
+                full_name=user.full_name,
+                email=user.email,
+                phone=user.phone,
+                password_hash=hash_password(
+                    user.password
+                ),
+                role=user.role
             )
-        )
 
         return UserRepository.create(
             db,
@@ -93,6 +94,16 @@ class AuthService:
             raise HTTPException(
                 status_code=401,
                 detail="Invalid email or password."
+            )
+
+        # ==========================
+        # Active User Check
+        # ==========================
+
+        if not db_user.is_active:
+            raise HTTPException(
+                status_code=403,
+                detail="Your account has been deactivated."
             )
 
         token = create_access_token(

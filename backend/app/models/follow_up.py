@@ -24,8 +24,9 @@ class FollowUp(Base):
     )
 
     follow_up_type: Mapped[str] = mapped_column(
-        String(30),
-        default="Call"
+    String(30),
+    nullable=False,
+    default="Call"
     )
 
     scheduled_at: Mapped[datetime] = mapped_column(
@@ -34,8 +35,9 @@ class FollowUp(Base):
     )
 
     status: Mapped[str] = mapped_column(
-        String(20),
-        default="Pending"
+    String(20),
+    nullable=False,
+    default="Pending"
     )
 
     remarks: Mapped[str | None] = mapped_column(
@@ -44,6 +46,7 @@ class FollowUp(Base):
     )
 
     created_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow
+    DateTime,
+    nullable=False,
+    default=datetime.utcnow
     )

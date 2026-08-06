@@ -113,7 +113,6 @@ def verify_access_token(
 # ==========================
 # Current Logged In User
 # ==========================
-
 def get_current_user(
     token: str = Depends(oauth2_scheme),
     db: Session = Depends(get_db)
@@ -128,9 +127,18 @@ def get_current_user(
             detail="Invalid or expired token."
         )
 
+    email = payload.get("sub")
+
+    if not email:
+
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token payload."
+        )
+
     user = UserRepository.get_by_email(
         db,
-        payload["sub"]
+        email
     )
 
     if not user:

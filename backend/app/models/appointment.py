@@ -28,16 +28,19 @@ class Appointment(Base):
     )
 
     status: Mapped[str] = mapped_column(
-        String(30),
-        default="Scheduled"
+    String(30),
+    nullable=False,
+    default="Scheduled"
     )
 
     meeting_type: Mapped[str] = mapped_column(
-        String(30),
-        default="Test Drive"
+    String(30),
+    nullable=False,
+    default="Test Drive"
     )
 
     created_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow
+    DateTime,
+    nullable=False,
+    default=datetime.utcnow
     )

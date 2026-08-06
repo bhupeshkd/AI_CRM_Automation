@@ -12,6 +12,7 @@ class UserCreate(BaseModel):
     email: EmailStr
     phone: str
     password: str
+    role: str = "Sales Executive"
 
 
 # ==========================

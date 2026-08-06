@@ -75,33 +75,38 @@ class Lead(Base):
     # AI Qualification
     # ==========================
     lead_score: Mapped[int] = mapped_column(
-        Integer,
-        default=0
+    Integer,
+    nullable=False,
+    default=0
     )
 
     qualification_status: Mapped[str] = mapped_column(
-        String(20),
-        default="Pending"
+    String(20),
+    nullable=False,
+    default="Pending"
     )
 
     pipeline_stage: Mapped[str] = mapped_column(
-        String(30),
-        default="New Lead"
+    String(30),
+    nullable=False,
+    default="New Lead"
     )
 
     priority: Mapped[str] = mapped_column(
-        String(20),
-        default="Medium"
+    String(20),
+    nullable=False,
+    default="Medium"
     )
 
     recommended_action: Mapped[str] = mapped_column(
         String(500),
         nullable=True
     )
-
+  
     follow_up_in_hours: Mapped[int] = mapped_column(
-        Integer,
-        default=24
+    Integer,
+    nullable=False,
+    default=24
     )
 
     ai_reason: Mapped[str] = mapped_column(

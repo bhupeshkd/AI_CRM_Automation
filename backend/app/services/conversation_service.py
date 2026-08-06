@@ -1,7 +1,6 @@
 from sqlalchemy.orm import Session
 
 from app.repositories.conversation_repository import ConversationRepository
-from app.schemas.conversation import ConversationCreate
 from app.services.activity_service import ActivityService
 from fastapi import HTTPException
 
@@ -49,6 +48,7 @@ class ConversationService:
             db,
             lead_id
         )
+    
     @staticmethod
     def update_conversation(
         db: Session,

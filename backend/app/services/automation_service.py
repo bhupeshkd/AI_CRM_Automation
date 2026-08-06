@@ -17,7 +17,8 @@ class AutomationService:
     @staticmethod
     def process_new_lead(
         db: Session,
-        lead: Lead
+        lead: Lead,
+        communication: dict
     ):
         """
         Main automation workflow executed
@@ -47,7 +48,7 @@ class AutomationService:
         # ==========================
 
         follow_up_time = datetime.utcnow() + timedelta(
-            hours=lead.follow_up_in_hours
+            hours=lead.follow_up_in_hours or 24
         )
 
         # ==========================
@@ -73,7 +74,44 @@ class AutomationService:
                 lead_id=lead.id,
                 follow_up_type=follow_up_type,
                 scheduled_at=follow_up_time,
-                remarks=lead.recommended_action
+                remarks=lead.recommended_action or "Manual follow-up required."
+            )
+        )
+        # ==========================
+        # AI Email
+        # ==========================
+
+        ConversationService.create_conversation(
+            db,
+            ConversationCreate(
+                lead_id=lead.id,
+                sender="AI",
+                # message=(
+                #     f"Subject: {communication['email_subject']}\n\n"
+                #     f"{communication['email_body']}"
+                # ),
+                message=(
+                    f"Subject: {communication.get('email_subject', 'Automobile Enquiry')}\n\n"
+                    f"{communication.get('email_body', '')}"
+                ),
+                message_type="Email"
+            )
+        )
+
+        # ==========================
+        # AI WhatsApp Message
+        # ==========================
+
+        ConversationService.create_conversation(
+            db,
+            ConversationCreate(
+                lead_id=lead.id,
+                sender="AI",
+                message=communication.get(
+                    "whatsapp_message",
+                    "Thank you for your enquiry."
+                    ),
+                message_type="WhatsApp"
             )
         )
 

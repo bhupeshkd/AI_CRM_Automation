@@ -27,7 +27,7 @@ class GoogleSheetService:
         client = gspread.authorize(credentials)
         print("✅ Authorization Successful")
 
-        print(f"Opening Spreadsheet : {settings.GOOGLE_SHEET_NAME}")
+        print("Opening Spreadsheet...")
         spreadsheet = client.open(settings.GOOGLE_SHEET_NAME)
         print("✅ Spreadsheet Opened")
 
@@ -69,8 +69,7 @@ class GoogleSheetService:
                 str(lead.created_at),
             ]
 
-            print("Appending Row...")
-            print(row)
+            print("Appending lead to Google Sheet...")
 
             worksheet.append_row(row)
 
@@ -78,8 +77,9 @@ class GoogleSheetService:
             print("========== SHEET SYNC END ==========\n")
 
         except Exception as e:
-            print("\n❌ GOOGLE SHEET ERROR")
-            print(type(e).__name__)
-            print(e)
+            print(
+                f"❌ GOOGLE SHEET ERROR: "
+                f"{type(e).__name__}: {e}"
+            )
             print("====================================\n")
             raise
