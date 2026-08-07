@@ -395,7 +395,7 @@ https://github.com/bhupeshkd
 
 LinkedIn
 
-(Add your LinkedIn URL)
+https://www.linkedin.com/in/bhupesh-dew
 
 ---
 
