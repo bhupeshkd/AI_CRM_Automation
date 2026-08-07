@@ -52,7 +52,7 @@ st.markdown("""
 
 
 /* ===========================
-      KPI CARD
+    KPI CARD
 =========================== */
 
 .metric-card{
@@ -263,7 +263,6 @@ st.markdown("""
 # ==========================================
 
 def get_icon(activity):
-
     activity = activity.lower()
 
     if "lead" in activity:
@@ -280,25 +279,27 @@ def get_icon(activity):
 
     elif "ai" in activity:
         return "🤖"
-
     return "⚡"
 
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 def format_time(value):
-
     try:
-
         dt = datetime.fromisoformat(value)
-
+        # Agar database se timezone-naive UTC datetime aa raha hai
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=ZoneInfo("UTC"))
+        # UTC -> IST
+        dt = dt.astimezone(
+            ZoneInfo("Asia/Kolkata")
+        )
         return dt.strftime(
             "%d %b %Y • %I:%M %p"
         )
-
     except Exception:
-
         return value
-
-
+    
 # ==========================================
 # Page Config
 # ==========================================
@@ -322,11 +323,8 @@ if not AuthManager.is_logged_in():
 activities = get_all_activities() or []
 
 for item in activities:
-
     for key, value in item.items():
-
         if isinstance(value, str):
-
             item[key] = re.sub(
                 r"<[^>]*>",
                 "",
@@ -338,9 +336,7 @@ for item in activities:
 # Header
 # ==========================================
 left,right=st.columns([5,1])
-
 with left:
-
     st.markdown("""
 
 <div class="page-title">
@@ -398,24 +394,17 @@ with c2:
 # ==========================================
 
 filtered = []
-
 search = search.lower().strip()
-
 for activity in activities:
 
     activity_type = activity.get(
         "activity_type",
         ""
     )
-
     if filter_type != "All":
-
         if filter_type.lower() not in activity_type.lower():
-
             continue
-
     if search:
-
         text = (
             str(activity.get("lead_id",""))
             + " "
@@ -423,13 +412,10 @@ for activity in activities:
             + " "
             + str(activity.get("description",""))
         ).lower()
-
         if search not in text:
-
             continue
 
     filtered.append(activity)
-
 
 # ==========================================
 # KPI Calculation
