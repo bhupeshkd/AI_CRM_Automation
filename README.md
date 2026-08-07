@@ -67,7 +67,6 @@ Production-Ready AI Powered CRM Automation Platform built with FastAPI, Streamli
 
 ---
 
-# 🚀 Project Overview
 
 
 # 🚀 Project Overview
