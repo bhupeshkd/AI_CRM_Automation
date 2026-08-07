@@ -2,58 +2,62 @@
 
 # Assumptions
 
-The following assumptions were made during development.
+The following assumptions were made during the development of the system.
 
-## Business
+## Business Assumptions
 
-- Every lead is unique.
-- Email and phone identify a customer.
-- One appointment occupies one time slot.
-- AI qualification executes immediately after lead creation.
-
----
-
-## Technical
-
-- PostgreSQL stores all CRM data.
-- Google Sheets acts as external CRM reporting.
-- FastAPI exposes REST APIs.
-- AI qualification returns structured JSON.
+- Each customer is uniquely identified by their email address and phone number.
+- Every lead represents a potential customer interested in purchasing a vehicle.
+- AI qualification is automatically triggered whenever a new lead is created.
+- One appointment can only be assigned to one lead at a specific date and time.
+- Sales executives use AI recommendations to prioritize customer follow-ups.
 
 ---
 
-# Limitations
+## Technical Assumptions
 
-Current MVP limitations include:
+- PostgreSQL (Supabase) is the primary database.
+- Google Gemini AI returns structured and valid JSON responses.
+- Google Sheets is used for automatic lead synchronization and reporting.
+- FastAPI serves as the backend REST API.
+- Streamlit provides the user interface and dashboard.
+- JWT tokens are used for API authentication.
 
-- No user authentication
-- No role-based access control
-- No background scheduler
-- No WhatsApp Business API
-- No Email API
-- No SMS integration
-- No Dashboard
-- No Analytics
-- No Docker deployment
-- No Redis queue
-- No Celery workers
+---
+
+# Current Limitations
+
+Although the project is production-ready, the current version has the following limitations:
+
+- No email notification system
+- No WhatsApp Business API integration
+- No SMS notification service
+- No background job scheduler (Celery/APScheduler)
+- No Docker containerization
+- No CI/CD pipeline
+- No Redis-based task queue
+- No automated reminder notifications
+- No file upload support for customer documents
+- No multi-tenant (organization-based) architecture
 
 ---
 
 # Future Scope
 
-Possible enhancements:
+Potential enhancements for future versions include:
 
-- JWT Authentication
-- Background Jobs
-- Voice AI
-- AI Receptionist
-- WhatsApp Bot
 - Email Automation
-- RAG-based CRM
-- Docker
-- Kubernetes
-- CI/CD
-- Monitoring
-- Analytics Dashboard
+- WhatsApp Business API Integration
+- SMS Notifications
+- Background Task Scheduling
+- Automated Follow-up Reminders
+- AI Voice Assistant
+- AI Receptionist
+- RAG-based Customer Knowledge Assistant
+- Docker & Kubernetes Deployment
+- CI/CD Pipeline
+- Redis + Celery Integration
+- Advanced Analytics Dashboard
+- Predictive Sales Analytics
 - Multi-language Support
+- Multi-tenant CRM Architecture
