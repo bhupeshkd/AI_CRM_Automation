@@ -36,3 +36,24 @@ class ActivityRepository:
         ).delete()
 
         db.commit()
+
+    @staticmethod
+    def get_all(
+        db: Session
+    ):
+        return (
+            db.query(Activity)
+            .order_by(Activity.created_at.desc())
+            .all()
+        )
+
+    @staticmethod
+    def get_by_id(
+        db: Session,
+        activity_id: str
+    ):
+        return (
+            db.query(Activity)
+            .filter(Activity.id == activity_id)
+            .first()
+        )

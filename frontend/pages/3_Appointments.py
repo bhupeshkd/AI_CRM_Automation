@@ -289,3 +289,4 @@ if filtered and grid:
 if selected_appointment:
     st.write("")
     render_appointment_details(selected_appointment)
+

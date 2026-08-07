@@ -5,6 +5,7 @@ from app.api import appointment
 from app.api import conversation
 from app.api import follow_up
 from app.api import auth
+from app.api import activity
 
 
 app = FastAPI(
@@ -26,6 +27,11 @@ app.include_router(appointment.router)
 app.include_router(conversation.router)
 app.include_router(follow_up.router)
 app.include_router(auth.router)
+app.include_router(
+    activity.router,
+    prefix="/activities",
+    tags=["Activities"]
+)
 
 
 @app.get("/", tags=["Root"])

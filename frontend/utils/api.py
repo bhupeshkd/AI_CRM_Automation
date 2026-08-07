@@ -289,3 +289,28 @@ class APIClient:
             headers=APIClient.get_headers(),
             timeout=Config.REQUEST_TIMEOUT
         )
+
+    # ==========================================
+    # Activities
+    # ==========================================
+
+    @staticmethod
+    def get_activities():
+
+        return requests.get(
+            f"{Config.API_URL}/activities",
+            headers=APIClient.get_headers(),
+            timeout=Config.REQUEST_TIMEOUT
+        )
+
+
+    @staticmethod
+    def get_activity(
+        activity_id: str
+    ):
+
+        return requests.get(
+            f"{Config.API_URL}/activities/{activity_id}",
+            headers=APIClient.get_headers(),
+            timeout=Config.REQUEST_TIMEOUT
+        )

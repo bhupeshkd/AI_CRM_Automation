@@ -7,7 +7,8 @@ from st_aggrid import (
     AgGrid,
     GridOptionsBuilder,
     GridUpdateMode,
-    DataReturnMode
+    DataReturnMode,
+    JsCode
 )
 
 # Ensure root directory (frontend/) is in Python module search path
@@ -38,9 +39,10 @@ role = AuthManager.get_role()
 
 st.markdown("""
 <style>
+    /* KPI Card Styling */
     .lead-kpi-card {
-        background: var(--bg-card);
-        border: 1px solid var(--border-color);
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 12px;
         padding: 16px 20px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.05);
@@ -52,7 +54,7 @@ st.markdown("""
     }
     .lead-kpi-label {
         font-size: 0.78rem;
-        color: var(--text-secondary);
+        color: #94A3B8;
         text-transform: uppercase;
         letter-spacing: 0.06em;
         font-weight: 600;
@@ -61,7 +63,7 @@ st.markdown("""
         font-size: 1.85rem;
         font-weight: 700;
         margin-top: 4px;
-        color: var(--text-primary);
+        color: #F8FAFC;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -71,7 +73,7 @@ st.markdown("""
 # ==========================================
 
 def clean_html(raw_html):
-    """HTML tags like <span style="..."> clean karke sirf inner text extract karta hai."""
+    """HTML tags clean karke inner text extract karta hai if needed."""
     if not raw_html or not isinstance(raw_html, str):
         return str(raw_html) if raw_html is not None else ""
     return re.sub(r'<[^>]*>', '', raw_html).strip()
@@ -84,21 +86,12 @@ if not AuthManager.is_logged_in():
     st.switch_page("Home.py")
 
 # ==========================================
-# Data Fetching & Cleaning
+# Data Fetching
 # ==========================================
 
 raw_leads = get_all_leads() or []
-leads = []
+leads = raw_leads
 
-for item in raw_leads:
-    clean_item = item.copy() if isinstance(item, dict) else {}
-
-    # Har text field se HTML tags completely remove kar rahe hain
-    for key, value in clean_item.items():
-        if isinstance(value, str):
-            clean_item[key] = clean_html(value)
-
-    leads.append(clean_item)
 # ==========================================
 # Header & Actions Toolbar
 # ==========================================
@@ -126,7 +119,7 @@ st.write("")
 # ==========================================
 
 with st.container():
-    f_col1, f_col2, f_col3 = st.columns([3, 2, 1], vertical_alignment="bottom")
+    f_col1, f_col2, f_col3 = st.columns([3, 1.5, 1], vertical_alignment="bottom")
 
     with f_col1:
         search = st.text_input(
@@ -159,12 +152,14 @@ filtered_leads = []
 query = search.strip().lower()
 
 for lead in leads:
-    if qualification != "All" and lead.get("qualification_status") != qualification:
+    # Qualification clean check
+    raw_qual = clean_html(str(lead.get("qualification_status", "")))
+    if qualification != "All" and raw_qual != qualification:
         continue
 
-    full_name = str(lead.get("full_name", "")).lower()
-    email = str(lead.get("email", "")).lower()
-    phone = str(lead.get("phone", "")).lower()
+    full_name = clean_html(str(lead.get("full_name", ""))).lower()
+    email = clean_html(str(lead.get("email", ""))).lower()
+    phone = clean_html(str(lead.get("phone", ""))).lower()
 
     if not query or (query in full_name or query in email or query in phone):
         filtered_leads.append(lead)
@@ -175,9 +170,9 @@ st.write("")
 # KPI Summary Cards
 # ==========================================
 
-hot_count = sum(1 for x in filtered_leads if x.get("qualification_status") == "Hot")
-warm_count = sum(1 for x in filtered_leads if x.get("qualification_status") == "Warm")
-high_priority = sum(1 for x in filtered_leads if x.get("priority") == "High")
+hot_count = sum(1 for x in filtered_leads if clean_html(str(x.get("qualification_status"))) == "Hot")
+warm_count = sum(1 for x in filtered_leads if clean_html(str(x.get("qualification_status"))) == "Warm")
+high_priority = sum(1 for x in filtered_leads if clean_html(str(x.get("priority"))) == "High")
 
 k1, k2, k3, k4 = st.columns(4)
 
@@ -217,7 +212,7 @@ st.write("")
 st.write("")
 
 # ==========================================
-# AgGrid Lead Table (Clean Actual Data)
+# AgGrid Lead Table
 # ==========================================
 
 if filtered_leads:
@@ -251,21 +246,21 @@ if filtered_leads:
         resizable=True,
     )
 
-    gb.configure_pagination(
-        enabled=True,
-        paginationPageSize=10,
-    )
+    # HTML Render support enable karke tags fix kar diye
+    if "Qualification" in display_df.columns:
+        gb.configure_column("Qualification", cellRendererHTML=True)
+        
+    if "Priority" in display_df.columns:
+        gb.configure_column("Priority", cellRendererHTML=True)
 
-    gb.configure_selection(
-        selection_mode="single",
-        use_checkbox=True,
-    )
+    gb.configure_pagination(enabled=True, paginationPageSize=10)
+    gb.configure_selection(selection_mode="single", use_checkbox=True)
 
     grid_response = AgGrid(
         display_df,
         gridOptions=gb.build(),
         height=420,
-        theme="streamlit",
+        theme="streamlit",  # Dark dashboard theme ke sath match karne ke liye
         fit_columns_on_grid_load=True,
         update_mode=GridUpdateMode.SELECTION_CHANGED,
         data_return_mode=DataReturnMode.FILTERED_AND_SORTED

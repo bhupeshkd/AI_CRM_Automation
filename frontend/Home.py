@@ -22,55 +22,96 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# Load global custom styles
 load_css()
 
-# Custom Inline Styling for Centered Auth Card
+# Modern Compact CSS Injection
 st.markdown("""
 <style>
-    /* Center container vertically */
-    .block-container {
-        max-width: 1000px !important;
-        padding-top: 5rem !important;
+    /* Hide top header bar */
+    header[data-testid="stHeader"] {
+        background: transparent !important;
     }
-    
-    /* Login Header Card Styling */
+
+    /* Restrict max width of main container */
+    .block-container {
+        padding-top: 4rem !important;
+        padding-bottom: 2rem !important;
+    }
+
+    /* Form Container Max Width Fix */
+    div[data-testid="stForm"] {
+        max-width: 420px !important;
+        margin: 0 auto !important;
+        background: #161b22 !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 16px !important;
+        padding: 2rem 1.8rem !important;
+        box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6) !important;
+    }
+
+    /* Header styling */
     .login-brand-header {
         text-align: center;
-        margin-bottom: 2rem;
+        max-width: 420px;
+        margin: 0 auto 1.5rem auto;
     }
     
     .login-badge {
         display: inline-block;
-        background: rgba(99, 102, 241, 0.15);
-        border: 1px solid rgba(99, 102, 241, 0.3);
+        background: rgba(99, 102, 241, 0.12);
+        border: 1px solid rgba(99, 102, 241, 0.25);
         color: #818CF8;
-        padding: 6px 16px;
+        padding: 5px 14px;
         border-radius: 20px;
-        font-size: 0.85rem;
+        font-size: 0.78rem;
         font-weight: 600;
         margin-bottom: 12px;
     }
     
     .login-title {
-        font-size: 2.2rem;
+        font-size: 2.1rem;
         font-weight: 800;
         color: #F8FAFC;
-        margin-bottom: 8px;
+        letter-spacing: -0.02em;
+        margin-bottom: 6px;
     }
     
     .login-subtitle {
         color: #94A3B8;
-        font-size: 0.95rem;
+        font-size: 0.88rem;
     }
 
-    /* Input Form Container Card */
-    div[data-testid="stForm"] {
-        background: rgba(30, 41, 59, 0.5);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 16px;
-        padding: 2.5rem 2rem;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    /* Form Input Fields */
+    div[data-testid="stForm"] input {
+        background-color: #0d1117 !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: #F8FAFC !important;
+        border-radius: 8px !important;
+    }
+
+    /* Submit Button styling */
+    div[data-testid="stForm"] button {
+        background: #6366F1 !important;
+        color: #FFFFFF !important;
+        border: none !important;
+        font-weight: 600 !important;
+        padding: 0.6rem 1rem !important;
+        border-radius: 8px !important;
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3) !important;
+        transition: all 0.2s ease !important;
+    }
+    
+    div[data-testid="stForm"] button:hover {
+        background: #4F46E5 !important;
+        box-shadow: 0 6px 16px rgba(99, 102, 241, 0.45) !important;
+    }
+
+    .footer-caption {
+        text-align: center;
+        max-width: 420px;
+        margin: 1.5rem auto 0 auto;
+        color: #64748B;
+        font-size: 0.78rem;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -83,19 +124,12 @@ if AuthManager.is_logged_in():
     st.switch_page("pages/1_Dashboard.py")
 
 # ==========================================
-# Session State Initialization
+# Grid Columns for Center Alignment
 # ==========================================
 
-# if "access_token" not in st.session_state:
-#     st.session_state.access_token = None
+col_left, col_center, col_right = st.columns([1, 1.2, 1])
 
-# ==========================================
-# Centered Layout Setup
-# ==========================================
-
-_, center_col, _ = st.columns([1, 2, 1])
-
-with center_col:
+with col_center:
     # Brand Header
     st.markdown("""
     <div class="login-brand-header">
@@ -122,8 +156,7 @@ with center_col:
 
         login_btn = st.form_submit_button(
             "Sign In to Workspace →",
-            use_container_width=True,
-            type="primary"
+            use_container_width=True
         )
 
     # Authentication Processing
@@ -140,29 +173,16 @@ with center_col:
 
                 if response.status_code == 200:
                     data = response.json()
-                    AuthManager.save_token(
-                        data["access_token"]
-                    )
+                    AuthManager.save_token(data["access_token"])
 
                     user_response = APIClient.get_current_user()
                     if user_response.status_code == 200:
-
-                        st.session_state.current_user = (
-                            user_response.json()
-                        )
-                        st.success(
-                            "Authentication successful! Redirecting...",
-                            icon="✅"
-                        )
+                        st.session_state.current_user = user_response.json()
+                        st.success("Authentication successful! Redirecting...", icon="✅")
                         st.rerun()
                     else:
-
                         AuthManager.logout()
-
-                        st.error(
-                            "Failed to load user information.",
-                            icon="🚨"
-                        )
+                        st.error("Failed to load user information.", icon="🚨")
                 else:
                     try:
                         err_msg = response.json().get("detail", "Invalid login credentials.")
@@ -173,6 +193,9 @@ with center_col:
             except Exception as e:
                 st.error(f"Connection error: Could not connect to API server. ({e})", icon="🔌")
 
-    # Bottom Helper Caption
-    st.write("")
-    st.caption("🔒 Secure Enterprise Auth • 256-bit API Encryption")
+    # Footer
+    st.markdown("""
+    <div class="footer-caption">
+        🔒 Secure Enterprise Auth • 256-bit API Encryption
+    </div>
+    """, unsafe_allow_html=True)

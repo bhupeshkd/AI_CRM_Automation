@@ -19,3 +19,18 @@ class ActivityService:
             activity_type,
             description
         )
+    @staticmethod
+    def get_all(
+        db: Session
+    ):
+        return ActivityRepository.get_all(db)
+
+    @staticmethod
+    def get_by_id(
+        db: Session,
+        activity_id: str
+    ):
+        return ActivityRepository.get_by_id(
+            db,
+            activity_id
+        )
