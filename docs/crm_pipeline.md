@@ -1,3 +1,16 @@
+# CRM Pipeline Design
+
+## Overview
+
+The AI CRM Automation System follows a structured sales pipeline that helps sales teams track customer progress from initial inquiry to final conversion.
+
+Each lead moves through different stages based on customer interactions, appointments, and sales activities.
+
+---
+
+# Sales Pipeline
+
+```text
 New Lead
     │
     ▼
@@ -18,27 +31,19 @@ Negotiation
     ▼
 Won
 
-
-
-Alternative
+────────────── OR ──────────────
 
 Qualified
+    │
+    ▼
+Contacted
     │
     ▼
 No Response
     │
     ▼
-Re-engagement
-    │
-    ▼
 Lost
-
-
-# CRM Pipeline Design
-
-## Pipeline Overview
-
-The CRM pipeline tracks every customer from initial inquiry until final conversion.
+```
 
 ---
 
@@ -46,128 +51,153 @@ The CRM pipeline tracks every customer from initial inquiry until final conversi
 
 ## 1. New Lead
 
-Customer submits enquiry.
+A customer submits an enquiry through the CRM.
 
-↓
+Information collected includes:
 
-## 2. Qualified
-
-AI evaluates:
-
+- Customer Details
+- Vehicle Interest
 - Budget
-- Timeline
-- Vehicle
-- City
-
-Lead Score generated.
-
-↓
-
-## 3. Contacted
-
-Sales executive contacts customer.
-
-↓
-
-## 4. Follow-up
-
-Customer requires additional follow-up.
-
-↓
-
-## 5. Appointment Scheduled
-
-Test drive appointment booked.
-
-↓
-
-## 6. Test Drive Completed
-
-Customer visits dealership.
-
-↓
-
-## 7. Negotiation
-
-Pricing and finance discussion.
-
-↓
-
-## 8. Won
-
-Vehicle purchased.
-
-OR
-
-↓
-
-## Lost
-
-Customer declined.
+- Purchase Timeline
+- Lead Source
 
 ---
 
-# Re-engagement Flow
+## 2. Qualified
 
-Missed Appointment
+After a lead is created, **Google Gemini AI** automatically evaluates the customer and generates:
 
-↓
+- Lead Score
+- Qualification Status
+- Pipeline Stage
+- Priority
+- Recommended Action
+- Follow-up Time
+- AI Reason
 
-AI WhatsApp Message
+---
 
-↓
+## 3. Contacted
 
-Follow-up Call
+A sales executive contacts the customer and records communication inside the CRM.
 
-↓
+Supported communication types:
 
-Reschedule Appointment
+- Call
+- Email
+- WhatsApp
+- SMS
+- Internal Notes
 
-↓
+---
 
-Qualified Again
+## 4. Appointment Scheduled
+
+A showroom visit or test drive appointment is scheduled.
+
+Appointment information includes:
+
+- Date & Time
+- Status
+- Notes
+
+---
+
+## 5. Test Drive Completed
+
+The customer completes the scheduled vehicle test drive.
+
+Sales representatives can update the appointment status accordingly.
+
+---
+
+## 6. Negotiation
+
+Pricing, finance options, exchange offers, and other commercial discussions take place.
+
+---
+
+## 7. Won
+
+The customer proceeds with the vehicle purchase.
+
+The lead reaches the successful end of the sales pipeline.
+
+---
+
+## 8. Lost
+
+The lead is marked as lost when the customer decides not to proceed with the purchase.
 
 ---
 
 # Duplicate Prevention
 
-Duplicate validation is performed using:
+The CRM prevents duplicate lead creation using:
 
-- Email
+- Email Address
 - Phone Number
 
-Duplicate leads are rejected before entering CRM.
+Duplicate records are rejected before being stored.
 
 ---
 
-# Automation Points
+# Automation
 
-✔ AI Qualification
+The current version of the project automates the following processes:
 
-✔ Google Sheet Sync
-
-✔ Follow-up Creation
-
-✔ Activity Logging
-
-✔ Appointment Validation
-
-✔ Missed Appointment Workflow
-
-✔ Conversation History
-
-✔ Re-engagement Campaign
+- AI Lead Qualification
+- AI Lead Scoring
+- AI Priority Assignment
+- AI Pipeline Prediction
+- AI Recommended Action
+- AI Follow-up Time Suggestion
+- Google Sheets Synchronization
+- Activity Logging
 
 ---
 
-# CRM Data Stored
+# CRM Records
 
-- Customer Information
-- AI Score
-- Qualification
-- Appointment
-- Follow-up
+The system manages the following information:
+
+- Customer Details
+- AI Qualification
+- Lead Score
+- Pipeline Stage
+- Priority
+- Appointments
+- Follow-ups
+- Conversations
 - Notes
 - Tags
-- Activities
-- Conversation History
+- Activity Logs
+
+---
+
+# Current Limitations
+
+The following processes are managed manually in the current version:
+
+- Appointment Scheduling
+- Follow-up Creation
+- Conversation Updates
+- Pipeline Stage Changes
+
+Future versions may automate these workflows.
+
+---
+
+# Future Enhancements
+
+Possible future improvements include:
+
+- Automatic Follow-up Scheduling
+- Email Notifications
+- WhatsApp Business API
+- SMS Notifications
+- AI Voice Assistant
+- Background Job Scheduler
+- Predictive Sales Analytics
+- Customer Re-engagement Automation
+- Multi-tenant CRM Support
