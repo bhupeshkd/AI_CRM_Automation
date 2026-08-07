@@ -32,6 +32,44 @@ Production-Ready AI Powered CRM Automation Platform built with FastAPI, Streamli
 
 ---
 
+<h1 align="center">
+🤖 AI CRM Automation System
+</h1>
+
+<p align="center">
+Production-Ready AI Powered CRM Automation Platform built with FastAPI, Streamlit, PostgreSQL (Supabase), Google Gemini AI, JWT Authentication and Google Sheets Integration.
+</p>
+
+<p align="center">
+
+![Python](...)
+![FastAPI](...)
+![Streamlit](...)
+...
+
+</p>
+
+<p align="center">
+
+<a href="https://frontend-m0l5.onrender.com">
+<img src="https://img.shields.io/badge/🌐_Live_Demo-Visit-success?style=for-the-badge" />
+</a>
+
+<a href="https://ai-crm-backend-ibos.onrender.com/docs">
+<img src="https://img.shields.io/badge/📚_API_Docs-Swagger-blue?style=for-the-badge" />
+</a>
+
+<a href="https://ai-crm-backend-ibos.onrender.com">
+<img src="https://img.shields.io/badge/⚡_Backend-Live-orange?style=for-the-badge" />
+</a>
+
+</p>
+
+---
+
+# 🚀 Project Overview
+
+
 # 🚀 Project Overview
 
 AI CRM Automation is a complete Customer Relationship Management platform designed for automobile dealerships.
