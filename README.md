@@ -1,210 +1,247 @@
-<!-- ========================================================= -->
-<!--                 AI CRM AUTOMATION SYSTEM                  -->
-<!-- ========================================================= -->
+# 🚗 AI CRM Automation
 
-<h1 align="center">
-🤖 AI CRM Automation System
-</h1>
+> **An AI-powered Customer Relationship Management platform for automobile dealerships built with FastAPI, Streamlit, PostgreSQL, and Google Gemini AI.**
 
-<p align="center">
-Production-Ready AI Powered CRM Automation Platform built with FastAPI, Streamlit, PostgreSQL (Supabase), Google Gemini AI, JWT Authentication and Google Sheets Integration.
-</p>
+Automatically qualify leads, generate AI recommendations, schedule appointments, manage customer conversations, synchronize data with Google Sheets, and track every CRM activity from a single dashboard.
 
 <p align="center">
 
-![Python](https://img.shields.io/badge/Python-3.14-blue?logo=python)
-
-![FastAPI](https://img.shields.io/badge/FastAPI-Production-green?logo=fastapi)
-
-![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-red?logo=streamlit)
-
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supabase-blue?logo=postgresql)
-
-![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-ORM-orange)
-
-![Gemini AI](https://img.shields.io/badge/Google-Gemini_AI-blue)
-
-![JWT](https://img.shields.io/badge/JWT-Authentication-success)
-
-![License](https://img.shields.io/badge/License-MIT-green)
+![Python](https://img.shields.io/badge/Python-3.12-blue?style=for-the-badge&logo=python)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge&logo=fastapi)
+![Streamlit](https://img.shields.io/badge/Streamlit-Frontend-FF4B4B?style=for-the-badge&logo=streamlit)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supabase-336791?style=for-the-badge&logo=postgresql)
+![Gemini](https://img.shields.io/badge/Google-Gemini_AI-4285F4?style=for-the-badge&logo=google)
+![Render](https://img.shields.io/badge/Deployment-Render-46E3B7?style=for-the-badge&logo=render)
+![License](https://img.shields.io/badge/License-MIT-success?style=for-the-badge)
 
 </p>
 
-<p align="center">
+# 🌐 Live Demo
 
-<a href="https://ai-crm-frontend-m0l5.onrender.com">
-<img src="https://img.shields.io/badge/🌐_Live_Demo-Visit-success?style=for-the-badge" />
-</a>
+| Service | Link |
+|---------|------|
+| 🚀 Frontend | https://ai-crm-frontend-m0l5.onrender.com/ |
+| ⚡ Backend API | https://ai-crm-backend-ibos.onrender.com |
+| 📘 Swagger UI | https://ai-crm-backend-ibos.onrender.com/docs |
+| 📖 ReDoc | https://ai-crm-backend-ibos.onrender.com/redoc |
 
-<a href="https://ai-crm-backend-ibos.onrender.com/docs">
-<img src="https://img.shields.io/badge/📚_API_Docs-Swagger-blue?style=for-the-badge" />
-</a>
+# 📸 Screenshots
 
-<a href="https://ai-crm-backend-ibos.onrender.com">
-<img src="https://img.shields.io/badge/⚡_Backend-Live-orange?style=for-the-badge" />
-</a>
+## 📊 Dashboard
 
-</p>
+<img width="1893" height="1048" alt="image" src="https://github.com/user-attachments/assets/20d1ddff-26af-42b9-a89e-4b76f76d2bff" />
+
+---
+
+## 👥 Lead Management
+
+<img width="1919" height="1026" alt="image" src="https://github.com/user-attachments/assets/7d9205df-5bb8-4fd3-ad40-f8426393bbc2" />
+
+---
+
+## 📋 Activity Timeline
+
+<img width="1919" height="1029" alt="image" src="https://github.com/user-attachments/assets/3b893fc3-7999-4b9d-96ef-0b4322d807c5" />
+
 
 ---
 
 # 🚀 Project Overview
 
-AI CRM Automation is a production-ready Customer Relationship Management platform designed for automobile dealerships.
+AI CRM Automation is a production-ready Customer Relationship Management platform designed specifically for automobile dealerships.
 
-Instead of simply storing customer information, the system automatically analyzes every lead using Google Gemini AI, qualifies the customer, assigns a lead score and priority, recommends the next sales action, synchronizes lead data with Google Sheets, and provides an interactive CRM dashboard for managing leads, appointments, follow-ups, and conversations.
+Instead of simply storing customer information, the platform leverages **Google Gemini AI** to automatically analyze every lead, calculate a lead score, assign qualification status and priority, recommend the next sales action, generate AI-powered customer communication, suggest appointments, synchronize data with Google Sheets, and maintain a complete activity timeline.
 
-The project follows a layered architecture with a clear separation between APIs, Services, Repositories, AI modules, Database, and Frontend.
+The application follows a layered architecture that separates APIs, Business Logic, Repositories, AI Modules, Database, and Frontend for better scalability and maintainability.
 
----
+# ✨ Key Highlights
 
-# ✨ Features
+- 🤖 AI-powered Lead Qualification using Google Gemini
+- 📈 Automatic Lead Scoring & Priority Assignment
+- 📅 AI Appointment Recommendation
+- 💬 AI-generated Customer Communication
+- 📞 Follow-up Management
+- 📝 Real-time Activity Timeline
+- 📊 Interactive CRM Dashboard
+- 🔐 JWT Authentication & Role-based Access
+- ☁️ Google Sheets Synchronization
+- 🏗️ Clean Layered Architecture (API → Service → Repository)
+
+# 🚀 Features
 
 ## 👥 Lead Management
 
-- Create Lead
-- Update Lead
-- Delete Lead
-- View Lead Details
-- AI Lead Qualification
-- Lead Score Generation
-- Pipeline Assignment
-- Priority Assignment
+Manage the complete customer lifecycle.
 
----
-
-## 🤖 AI Lead Qualification
-
-Automatically generates:
-
-- Lead Score
-- Qualification Status
-- Pipeline Stage
-- Priority
-- AI Reason
-- Recommended Action
-- Follow-up Time
-
-Powered by **Google Gemini AI**
+- ✅ Create Lead
+- ✅ Update Lead
+- ✅ Delete Lead
+- ✅ View Lead Details
+- ✅ Search & Filter Leads
+- ✅ AI Lead Qualification
+- ✅ Lead Score Generation
+- ✅ Pipeline Assignment
+- ✅ Priority Assignment
 
 ---
 
 ## 📅 Appointment Management
 
-- Create Appointment
-- Update Appointment
-- Delete Appointment
-- Appointment Status Tracking
+Schedule and manage customer meetings.
+
+- ✅ AI Appointment Recommendation
+- ✅ Create Appointment
+- ✅ Update Appointment
+- ✅ Delete Appointment
+- ✅ Appointment Status Tracking
 
 ---
 
 ## 📞 Follow-up Management
 
-- Create Follow-up
-- Update Follow-up
-- Delete Follow-up
-- Status Tracking
+Track customer follow-ups efficiently.
+
+- ✅ Create Follow-up
+- ✅ Update Follow-up
+- ✅ Delete Follow-up
+- ✅ Follow-up Status Tracking
 
 ---
 
 ## 💬 Conversation Management
 
-Maintain complete customer communication history.
+Maintain complete communication history.
 
-Supported communication types:
+Supported channels:
 
-- Call
-- Email
-- WhatsApp
-- SMS
-- Notes
+- 📱 WhatsApp
+- 📞 Phone Call
+- 📧 Email
+- 💬 SMS
+- 📝 Notes
 
 ---
 
 ## 📊 Dashboard
 
-Interactive Streamlit Dashboard with:
+Interactive dashboard built with Streamlit.
 
 - KPI Cards
-- Search
-- Filters
+- Search & Filters
 - AgGrid Tables
 - Responsive Layout
+- Real-time CRM Insights
 
 ---
 
 ## 🔒 Authentication
 
-JWT Authentication
+- JWT Authentication
+- Role-based Access Control
 
-Role-based User Management
+Supported Roles:
 
-- Admin
-- Sales Executive
+- 👑 Admin
+- 👨‍💼 Sales Executive
+
+# 🤖 AI Automation
+
+Powered by **Google Gemini AI**, the CRM automatically performs multiple intelligent operations whenever a new lead is created.
+
+### AI Lead Qualification
+
+Automatically generates:
+
+- Lead Score
+- Qualification Status
+- Priority
+- Pipeline Stage
+- AI Reasoning
+- Recommended Sales Action
+- Follow-up Recommendation
 
 ---
 
-## 📑 Google Sheets Integration
+### AI Appointment Recommendation
 
-Every newly created lead is automatically synchronized with Google Sheets for reporting and CRM backup.
+The AI recommends:
+
+- Best Appointment Date
+- Meeting Type
+- Appointment Priority
 
 ---
 
-# 🏗️ Architecture
+### AI Communication
+
+Automatically generates customer communication for:
+
+- WhatsApp
+- Email
+
+Sales executives can directly use AI-generated messages while communicating with customers.
+
+# 📝 Activity Timeline
+
+Every important CRM event is automatically recorded.
+
+Supported activities include:
+
+- ✅ Lead Created
+- ✅ Lead Updated
+- ✅ Lead Deleted
+- ✅ AI Lead Qualification
+- ✅ AI Communication Generated
+- ✅ Appointment Scheduled
+- ✅ Follow-up Scheduled
+- ✅ Conversation Added
+- ✅ Status Updates
+
+The Activity Timeline provides a complete audit trail, allowing sales teams to understand every action performed on a customer lead without checking backend logs.
+
+# 🏗️ System Architecture
+
+The application follows a clean layered architecture to ensure scalability, maintainability, and separation of concerns.
 
 ```text
-                 Streamlit Frontend
-                         │
-                         ▼
-                  FastAPI REST API
-                         │
-       ┌─────────────────┼─────────────────┐
-       ▼                 ▼                 ▼
- Authentication     CRM Services      AI Services
-       │                 │                 │
-       └─────────────────┼─────────────────┘
-                         ▼
-                  Repository Layer
-                         │
-       ┌─────────────────┼─────────────────┐
-       ▼                 ▼                 ▼
- PostgreSQL       Google Gemini AI   Google Sheets
- (Supabase)         Lead Analysis      Auto Sync
+                    Streamlit Frontend
+                           │
+                           ▼
+                    FastAPI REST API
+                           │
+     ┌─────────────────────┼─────────────────────┐
+     ▼                     ▼                     ▼
+ Authentication      CRM Services         AI Services
+     │                     │                     │
+     └─────────────────────┼─────────────────────┘
+                           ▼
+                    Repository Layer
+                           │
+     ┌─────────────────────┼─────────────────────┐
+     ▼                     ▼                     ▼
+ PostgreSQL          Google Gemini AI      Google Sheets
+ (Supabase)          Lead Analysis          Auto Sync
 ```
 
----
+The architecture separates business logic from APIs and database operations, making the application modular, testable, and easy to extend.
 
-# ⚙️ Tech Stack
+# ⚙️ Technology Stack
 
-## Backend
-
-- FastAPI
-- SQLAlchemy
-- PostgreSQL
-- Supabase
-- Alembic
-- JWT Authentication
-- Pydantic
-
-## Frontend
-
-- Streamlit
-- AgGrid
-- Pandas
-
-## AI
-
-- Google Gemini AI
-
-## Database
-
-- PostgreSQL (Supabase)
-
-## Integrations
-
-- Google Sheets API
-
----
+| Category | Technology |
+|-----------|------------|
+| Backend | FastAPI |
+| Frontend | Streamlit |
+| Database | PostgreSQL (Supabase) |
+| ORM | SQLAlchemy |
+| Data Validation | Pydantic |
+| Database Migration | Alembic |
+| Authentication | JWT |
+| AI Engine | Google Gemini AI |
+| Data Analysis | Pandas |
+| Tables | AgGrid |
+| External Integration | Google Sheets API |
+| Deployment | Render |
+| Version Control | Git & GitHub |
 
 # 📂 Project Structure
 
@@ -213,58 +250,74 @@ AI_CRM_Automation/
 
 ├── backend/
 │   ├── app/
-│   ├── api/
-│   ├── core/
-│   ├── database/
-│   ├── models/
-│   ├── repositories/
-│   ├── schemas/
-│   ├── services/
-│   └── main.py
+│   │   ├── ai/
+│   │   ├── api/
+│   │   ├── core/
+│   │   ├── database/
+│   │   ├── models/
+│   │   ├── repositories/
+│   │   ├── schemas/
+│   │   ├── services/
+│   │   └── main.py
+│   │
+│   └── alembic/
 │
 ├── frontend/
 │   ├── components/
 │   ├── pages/
+│   ├── services/
 │   ├── styles/
 │   ├── utils/
 │   └── Home.py
 │
-└── README.md
+├── README.md
+├── requirements.txt
+└── .env
 ```
-
----
 
 # 🔄 CRM Workflow
 
 ```text
-Lead Created
-      │
-      ▼
+Customer Lead Created
+          │
+          ▼
 Duplicate Validation
-      │
-      ▼
-Gemini AI Qualification
-      │
-      ▼
+          │
+          ▼
+Google Gemini AI Analysis
+          │
+          ▼
 Lead Score Generated
-      │
-      ▼
+          │
+          ▼
+Qualification Assigned
+          │
+          ▼
 Priority Assigned
-      │
-      ▼
+          │
+          ▼
+Pipeline Assigned
+          │
+          ▼
+AI Conversation Generated
+          │
+          ▼
+AI Appointment Recommendation
+          │
+          ▼
 Lead Saved to PostgreSQL
-      │
-      ▼
-Google Sheets Sync
-      │
-      ▼
+          │
+          ▼
+Google Sheets Synchronization
+          │
+          ▼
 Activity Logged
-      │
-      ▼
+          │
+          ▼
 Dashboard Updated
 ```
 
----
+Every lead follows this automated pipeline with minimal manual intervention, enabling sales teams to focus on customer engagement instead of repetitive CRM tasks.
 
 # 🛠️ Installation
 
@@ -278,7 +331,7 @@ cd AI_CRM_Automation
 
 ---
 
-## Backend
+## Backend Setup
 
 ```bash
 cd backend
@@ -288,9 +341,21 @@ uv sync
 uvicorn app.main:app --reload
 ```
 
+Backend will start at:
+
+```text
+http://127.0.0.1:8000
+```
+
+Swagger Documentation:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
 ---
 
-## Frontend
+## Frontend Setup
 
 ```bash
 cd frontend
@@ -300,11 +365,15 @@ uv sync
 streamlit run Home.py
 ```
 
----
+Frontend will start at:
+
+```text
+http://localhost:8501
+```
 
 # 🔑 Environment Variables
 
-Create a `.env` file:
+Create a `.env` file inside the backend directory.
 
 ```env
 DATABASE_URL=
@@ -324,70 +393,83 @@ GOOGLE_WORKSHEET_NAME=
 GOOGLE_CREDENTIALS=
 ```
 
----
+> **Note:** Never commit your `.env` file or API keys to GitHub.
 
 # 📡 API Documentation
 
-### Swagger UI
+Interactive API documentation is available through Swagger UI and ReDoc.
 
-```text
-https://ai-crm-backend-ibos.onrender.com/docs
-```
-
-### ReDoc
-
-```text
-https://ai-crm-backend-ibos.onrender.com/redoc
-```
+| Documentation | URL |
+|---------------|-----|
+| Swagger UI | https://YOUR_BACKEND.onrender.com/docs |
+| ReDoc | https://YOUR_BACKEND.onrender.com/redoc |
 
 ---
+
+### Main API Modules
+
+- 🔐 Authentication
+- 👥 Leads
+- 📅 Appointments
+- 📞 Follow-ups
+- 💬 Conversations
+- 📝 Activities
 
 # 📸 Screenshots
 
-> Screenshots will be added soon.
+## 📊 Dashboard
 
-- Login
-- Dashboard
-- Lead Management
-- Appointment Management
-- Follow-up Management
-- Conversation Management
+> *(Add Dashboard Screenshot Here)*
 
 ---
 
-# 🚀 Future Improvements
+## 👥 Lead Management
 
-- Email Notifications
-- WhatsApp Business API
-- SMS Integration
-- Background Job Scheduler
-- Redis + Celery
-- Docker Support
-- CI/CD Pipeline
-- AI Voice Assistant
-- Advanced Analytics Dashboard
-- RAG-based Customer Knowledge Assistant
+> *(Add Lead Management Screenshot Here)*
 
 ---
+
+## 📅 Appointment Management
+
+> *(Add Appointment Screenshot Here)*
+
+---
+
+## 💬 Conversation Management
+
+> *(Add Conversation Screenshot Here)*
+
+---
+
+## 📝 Activity Timeline
+
+> *(Add Activity Timeline Screenshot Here)*
 
 # 👨‍💻 Author
 
-**Bhupesh Kumar Dewangan**
+## Bhupesh Kumar Dewangan
 
 Python Developer • AI Developer
 
-**GitHub**
+### Connect with Me
 
-https://github.com/bhupeshkd
+- 💼 LinkedIn: https://www.linkedin.com/in/bhupesh-dew
+- 💻 GitHub: https://github.com/bhupeshkd
 
-**LinkedIn**
-
-https://www.linkedin.com/in/bhupesh-dew
-
----
+If you found this project interesting or useful, feel free to connect with me.
 
 # 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the **MIT License**.
 
-⭐ If you found this project useful, consider giving it a star.
+Feel free to use, modify, and contribute according to the license terms.
+
+---
+
+<div align="center">
+
+### ⭐ If you like this project, don't forget to give it a star!
+
+Made with ❤️ using **FastAPI**, **Streamlit**, and **Google Gemini AI**.
+
+</div>
