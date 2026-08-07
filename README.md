@@ -419,7 +419,7 @@ Interactive API documentation is available through Swagger UI and ReDoc.
 
 ## 📅 Appointment Management
 
-<img width="1919" height="1037" alt="image" src="https://github.com/user-attachments/assets/d9109ff8-bf76-4463-9f61-cede9b8a310c" />
+<img width="1908" height="1041" alt="image" src="https://github.com/user-attachments/assets/deb2ec24-4ea1-4610-9441-27037050e1fd" />
 
 
 ---
