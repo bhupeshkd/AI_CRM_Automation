@@ -2,18 +2,90 @@
 
 ## Overview
 
-The AI CRM Automation System exposes REST APIs for managing leads, appointments, conversations, and follow-up automation.
+The AI CRM Automation System exposes RESTful APIs for managing customer leads, appointments, follow-ups, conversations, and user authentication.
 
-Base URL
+The backend is built using **FastAPI** and follows a modular architecture with JWT-based authentication and AI-powered lead qualification.
 
-```
+---
+
+# Base URLs
+
+## Local Development
+
+```text
 http://localhost:8000
 ```
 
-Swagger Documentation
+## Production
+
+```text
+https://ai-crm-backend-ibos.onrender.com
+```
+
+## Interactive API Documentation
+
+### Swagger UI
+
+```text
+https://ai-crm-backend-ibos.onrender.com/docs
+```
+
+### ReDoc
+
+```text
+https://ai-crm-backend-ibos.onrender.com/redoc
+```
+
+---
+
+# Authentication APIs
+
+## Register User
+
+**POST** `/auth/register`
+
+Creates a new CRM user.
+
+> **Note:** Only an authenticated Admin can create new users.
+
+---
+
+## Login
+
+**POST** `/auth/login`
+
+Authenticates a user and returns a JWT access token.
+
+### Request
+
+```json
+{
+  "email": "admin@example.com",
+  "password": "Password@123"
+}
+```
+
+### Response
+
+```json
+{
+  "access_token": "<JWT_TOKEN>",
+  "token_type": "bearer"
+}
+```
+
+---
+
+## Current User
+
+**GET** `/auth/me`
+
+Returns details of the currently authenticated user.
+
+Requires:
 
 ```
-http://localhost:8000/docs
+Authorization: Bearer <JWT_TOKEN>
 ```
 
 ---
@@ -22,11 +94,19 @@ http://localhost:8000/docs
 
 ## Create Lead
 
-POST /leads/
+**POST** `/leads/`
 
-Creates a new lead, performs AI qualification, syncs data with Google Sheets, creates follow-up tasks, and logs activities.
+Creates a new lead and automatically performs:
 
-### Request
+- AI Lead Qualification
+- Lead Scoring
+- Priority Assignment
+- Pipeline Stage Prediction
+- Recommended Action Generation
+- Google Sheets Synchronization
+- Activity Logging
+
+### Sample Request
 
 ```json
 {
@@ -43,32 +123,37 @@ Creates a new lead, performs AI qualification, syncs data with Google Sheets, cr
 }
 ```
 
-### Response
-
-Returns the complete lead object including:
-
-- Lead Score
-- Qualification
-- Pipeline
-- Priority
-- AI Recommendation
-- Follow-up Time
-
 ---
 
 ## Get All Leads
 
-GET /leads/
+**GET** `/leads/`
 
-Returns every lead stored inside the CRM.
+Returns all CRM leads.
 
 ---
 
-## Get Lead By ID
+## Get Lead
 
-GET /leads/{lead_id}
+**GET** `/leads/{lead_id}`
 
-Returns complete information about a single lead.
+Returns details of a specific lead.
+
+---
+
+## Update Lead
+
+**PATCH** `/leads/{lead_id}`
+
+Updates lead information.
+
+---
+
+## Delete Lead
+
+**DELETE** `/leads/{lead_id}`
+
+Deletes a lead from the CRM.
 
 ---
 
@@ -76,20 +161,20 @@ Returns complete information about a single lead.
 
 ## Create Appointment
 
-POST /appointments/
+**POST** `/appointments/`
 
-Creates a test drive appointment.
+Creates an appointment for an existing lead.
 
-Validation:
+Validation includes:
 
-- Lead must exist
-- Appointment slot must not already be booked
+- Lead existence
+- Appointment availability
 
 ---
 
-## Get Appointments
+## Get All Appointments
 
-GET /appointments/
+**GET** `/appointments/`
 
 Returns all appointments.
 
@@ -97,7 +182,7 @@ Returns all appointments.
 
 ## Get Appointment
 
-GET /appointments/{appointment_id}
+**GET** `/appointments/{appointment_id}`
 
 Returns appointment details.
 
@@ -105,18 +190,24 @@ Returns appointment details.
 
 ## Update Appointment
 
-PATCH /appointments/{appointment_id}
+**PATCH** `/appointments/{appointment_id}`
 
-Updates appointment status.
+Updates appointment information or status.
 
-Example:
+Supported statuses include:
 
 - Scheduled
 - Completed
-- Missed
 - Cancelled
+- Missed
 
-Missed appointments automatically trigger re-engagement workflow.
+---
+
+## Delete Appointment
+
+**DELETE** `/appointments/{appointment_id}`
+
+Deletes an appointment.
 
 ---
 
@@ -124,17 +215,41 @@ Missed appointments automatically trigger re-engagement workflow.
 
 ## Create Follow-up
 
-POST /follow-ups/
+**POST** `/follow-ups/`
 
 Creates a follow-up task.
 
 ---
 
-## Get Follow-ups
+## Get All Follow-ups
 
-GET /follow-ups/
+**GET** `/follow-ups/`
 
-Returns all scheduled follow-ups.
+Returns all follow-up records.
+
+---
+
+## Get Follow-ups by Lead
+
+**GET** `/follow-ups/lead/{lead_id}`
+
+Returns follow-ups associated with a lead.
+
+---
+
+## Update Follow-up
+
+**PATCH** `/follow-ups/{followup_id}`
+
+Updates follow-up information.
+
+---
+
+## Delete Follow-up
+
+**DELETE** `/follow-ups/{followup_id}`
+
+Deletes a follow-up.
 
 ---
 
@@ -142,70 +257,135 @@ Returns all scheduled follow-ups.
 
 ## Create Conversation
 
-POST /conversations/
+**POST** `/conversations/`
 
-Stores AI or customer conversation.
+Stores customer communication history.
 
----
+Supported communication types include:
 
-## Get Conversations
-
-GET /conversations/{lead_id}
-
-Returns complete conversation history for a lead.
-
----
-
-# Activity APIs
-
-Activity records are automatically generated whenever:
-
-- Lead Created
-- Appointment Scheduled
-- Appointment Updated
-- Follow-up Scheduled
-- Conversation Added
-
-These APIs help maintain CRM audit history.
+- Call
+- Email
+- WhatsApp
+- SMS
+- Notes
 
 ---
 
-# Response Codes
+## Get All Conversations
 
-| Code | Meaning |
-|------|----------|
-|200|Success|
-|201|Resource Created|
-|400|Bad Request|
-|404|Not Found|
-|500|Internal Server Error|
+**GET** `/conversations/`
+
+Returns all conversation records.
 
 ---
 
-# API Workflow
+## Get Conversations by Lead
 
-Lead Creation
+**GET** `/conversations/lead/{lead_id}`
 
-↓
+Returns conversation history for a specific lead.
 
-AI Qualification
+---
 
-↓
+## Update Conversation
 
-Google Sheet Sync
+**PATCH** `/conversations/{conversation_id}`
 
-↓
+Updates conversation details.
 
-Automation Engine
+---
 
-↓
+## Delete Conversation
 
-Follow-up Creation
+**DELETE** `/conversations/{conversation_id}`
 
-↓
+Deletes a conversation.
 
-Activity Logging
+---
 
-↓
+# AI Workflow
 
-Response Returned
+Whenever a new lead is created, the following workflow executes automatically:
+
+```text
+Lead Created
+      │
+      ▼
+Gemini AI Qualification
+      │
+      ▼
+Lead Score Generated
+      │
+      ▼
+Priority Assigned
+      │
+      ▼
+Pipeline Stage Selected
+      │
+      ▼
+Recommended Action Generated
+      │
+      ▼
+Lead Saved to PostgreSQL
+      │
+      ▼
+Google Sheets Synchronization
+      │
+      ▼
+Activity Logged
+      │
+      ▼
+API Response Returned
+```
+
+---
+
+# Authentication
+
+Protected endpoints require a JWT access token.
+
+Example:
+
+```
+Authorization: Bearer <JWT_TOKEN>
+```
+
+---
+
+# Response Status Codes
+
+| Code | Description |
+|------|-------------|
+| 200 | OK |
+| 201 | Created |
+| 400 | Bad Request |
+| 401 | Unauthorized |
+| 403 | Forbidden |
+| 404 | Not Found |
+| 422 | Validation Error |
+| 500 | Internal Server Error |
+
+---
+
+# Technologies Used
+
+- FastAPI
+- SQLAlchemy
+- PostgreSQL (Supabase)
+- Google Gemini AI
+- Google Sheets API
+- JWT Authentication
+- Pydantic
+- Alembic
+
+---
+
+# API Highlights
+
+- RESTful API Design
+- JWT Authentication
+- AI-Powered Lead Qualification
+- Google Sheets Synchronization
+- Production Deployment on Render
+- PostgreSQL Database
+- Modular Service Architecture
