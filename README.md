@@ -51,7 +51,7 @@ Production-Ready AI Powered CRM Automation Platform built with FastAPI, Streamli
 
 <p align="center">
 
-<a href="https://frontend-m0l5.onrender.com">
+<a href="https://ai-crm-frontend-m0l5.onrender.com">
 <img src="https://img.shields.io/badge/🌐_Live_Demo-Visit-success?style=for-the-badge" />
 </a>
 
