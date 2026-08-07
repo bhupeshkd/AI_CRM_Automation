@@ -2,114 +2,125 @@
 
 ## Overview
 
-The AI CRM Automation System is a production-oriented backend application built using FastAPI and PostgreSQL. The system automates the complete customer journey from lead capture to appointment booking while maintaining activity history, conversation logs, follow-up automation, and CRM synchronization.
+The AI CRM Automation System is a production-ready Customer Relationship Management (CRM) platform built using **FastAPI**, **Streamlit**, **PostgreSQL (Supabase)**, and **Google Gemini AI**.
 
-The project follows a layered architecture to ensure clean separation of concerns, maintainability, scalability, and easier testing.
+The system automates AI-powered lead qualification, lead scoring, priority assignment, pipeline prediction, Google Sheets synchronization, and activity logging while providing a modern CRM interface for managing leads, appointments, follow-ups, and customer conversations.
+
+The project follows a layered architecture with clear separation of concerns, making it scalable, maintainable, and production-ready.
 
 ---
 
 # High Level Architecture
 
-```
-                Client Applications
-       (Swagger UI / React / Mobile App)
-                       │
-                       ▼
-                FastAPI REST APIs
-                       │
- ┌─────────────────────┼─────────────────────┐
- │                     │                     │
- ▼                     ▼                     ▼
-Lead APIs        Appointment APIs     Conversation APIs
- │                     │                     │
- └─────────────────────┼─────────────────────┘
-                       ▼
-                Service Layer
- │────────────────────────────────────────────│
- │ LeadService                                │
- │ AppointmentService                         │
- │ FollowUpService                            │
- │ ConversationService                        │
- │ AutomationService                          │
- │ ActivityService                            │
- │ GoogleSheetService                         │
- │────────────────────────────────────────────│
-                       │
-      ┌────────────────┼────────────────┐
-      ▼                ▼                ▼
-Repository Layer   AI Qualification   Google Sheets
-      │
-      ▼
- PostgreSQL Database
+```text
+                   Streamlit Frontend
+                           │
+                           ▼
+                    FastAPI REST APIs
+                           │
+        ┌──────────────────┼──────────────────┐
+        ▼                  ▼                  ▼
+ Authentication      CRM Services        AI Services
+        │                  │                  │
+        └──────────────────┼──────────────────┘
+                           ▼
+                    Repository Layer
+                           │
+        ┌──────────────────┼──────────────────┐
+        ▼                  ▼                  ▼
+ PostgreSQL          Google Gemini AI   Google Sheets
+  (Supabase)           Lead Analysis     Auto Sync
 ```
 
 ---
 
-# Project Layers
+# Architecture Layers
 
-## 1. API Layer
+## 1. Frontend Layer
 
-The API layer exposes REST endpoints to external applications.
+The frontend is developed using **Streamlit**.
 
-Responsibilities:
+### Responsibilities
+
+- User Authentication
+- Dashboard
+- Lead Management
+- Appointment Management
+- Follow-up Management
+- Conversation Management
+- API Communication
+
+---
+
+## 2. API Layer
+
+The API layer exposes REST endpoints to client applications.
+
+### Responsibilities
 
 - Receive HTTP requests
 - Validate request payloads
-- Call business services
-- Return API responses
+- Authenticate users
+- Invoke business services
+- Return structured JSON responses
 
-Examples:
+### API Modules
 
-- /leads
-- /appointments
-- /follow-ups
-- /conversations
+- Authentication
+- Leads
+- Appointments
+- Follow-ups
+- Conversations
 
 ---
 
-## 2. Service Layer
+## 3. Service Layer
 
 The Service Layer contains all business logic.
 
-Responsibilities:
+### Responsibilities
 
 - AI Lead Qualification
+- Lead Scoring
+- Priority Assignment
+- Pipeline Prediction
 - Appointment Validation
-- Duplicate Detection
-- Follow-up Automation
+- Google Sheets Synchronization
 - Activity Logging
-- Google Sheet Synchronization
 - CRM Workflow Management
 
-Business rules are never written inside API routes.
+Business logic is isolated from API routes to improve maintainability.
 
 ---
 
-## 3. Repository Layer
+## 4. Repository Layer
 
-Repositories are responsible for database communication.
+Repositories manage all database operations using SQLAlchemy.
 
-Responsibilities:
+### Responsibilities
 
 - Create Records
 - Read Records
 - Update Records
 - Delete Records
 
-Repositories isolate SQLAlchemy logic from business logic.
+This layer isolates database access from business logic.
 
 ---
 
-## 4. AI Layer
+## 5. AI Layer
 
-The AI Qualification module evaluates incoming leads using:
+The AI module is powered by **Google Gemini AI**.
+
+During lead creation, the AI evaluates:
 
 - Budget
 - Purchase Timeline
 - Vehicle Interest
-- City
+- Lead Source
+- Customer Notes
 
-The AI returns:
+The AI automatically generates:
 
 - Lead Score
 - Qualification Status
@@ -121,73 +132,130 @@ The AI returns:
 
 ---
 
-## 5. Database Layer
+## 6. Database Layer
 
-PostgreSQL stores all CRM information.
+The application uses **PostgreSQL (Supabase)** as the primary database.
 
-Current Tables:
+### Main Tables
 
+- Users
 - Leads
-- Activities
 - Appointments
-- Conversations
 - FollowUps
+- Conversations
+- Activities
 
 ---
 
-## 6. External Services
+## 7. External Integrations
 
-The system integrates with Google Sheets to maintain a live CRM copy.
+### Google Gemini AI
 
-Information synchronized:
+Used for intelligent lead qualification and recommendation generation.
 
-- Customer Details
-- Lead Score
-- Qualification
-- Pipeline
-- Notes
-- Tags
-- AI Reason
+### Google Sheets
+
+Every newly created lead is automatically synchronized to Google Sheets for reporting and CRM backup.
 
 ---
 
 # Design Principles
 
-The project follows:
+The project follows modern software engineering practices:
 
 - Layered Architecture
 - Repository Pattern
 - Service Pattern
 - Separation of Concerns
-- Single Responsibility Principle
-- Scalable Folder Structure
+- Single Responsibility Principle (SRP)
+- Modular Folder Structure
+- RESTful API Design
+- JWT Authentication
+- Scalable Code Organization
+
+---
+
+# System Workflow
+
+```text
+Customer Creates Lead
+          │
+          ▼
+FastAPI Receives Request
+          │
+          ▼
+Gemini AI Qualification
+          │
+          ▼
+Lead Score Generated
+          │
+          ▼
+Priority Assigned
+          │
+          ▼
+Pipeline Stage Selected
+          │
+          ▼
+Lead Saved to PostgreSQL
+          │
+          ▼
+Google Sheets Synchronization
+          │
+          ▼
+Activity Logged
+          │
+          ▼
+Response Returned to Frontend
+```
 
 ---
 
 # Benefits
 
-This architecture provides:
+The architecture provides:
 
-- Easy maintenance
-- Better scalability
-- Cleaner codebase
-- Easier testing
-- Production-ready design
-- Simple integration with external CRMs
+- Clean Code Organization
+- Scalable Design
+- Easy Maintenance
+- Separation of Business Logic
+- Production-Ready Structure
+- Easy Integration with External Services
+- Simplified Testing
+- Better Readability
 
 ---
 
-# Future Improvements
+# Technology Stack
+
+| Layer | Technology |
+|--------|------------|
+| Frontend | Streamlit |
+| Backend | FastAPI |
+| ORM | SQLAlchemy |
+| Database | PostgreSQL (Supabase) |
+| AI | Google Gemini AI |
+| Authentication | JWT |
+| API Validation | Pydantic |
+| Migration | Alembic |
+| External Integration | Google Sheets API |
+| Deployment | Render |
+
+---
+
+# Future Enhancements
 
 The architecture can be extended with:
 
-- JWT Authentication
-- Redis
-- Celery Background Jobs
-- WhatsApp API
-- Email Automation
-- Voice AI
-- Docker
-- Kubernetes
-- Monitoring & Logging
+- Email Notifications
+- WhatsApp Business API
+- SMS Integration
+- Background Job Scheduler
+- Redis + Celery
+- Docker Containerization
+- Kubernetes Deployment
 - CI/CD Pipeline
+- Monitoring & Logging
+- AI Voice Assistant
+- RAG-based Knowledge Assistant
+- Predictive Sales Analytics
+- Multi-tenant CRM Architecture
