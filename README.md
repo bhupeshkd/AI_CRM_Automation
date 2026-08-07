@@ -1,5 +1,5 @@
 <!-- ========================================================= -->
-<!--                       AI CRM AUTOMATION                    -->
+<!--                 AI CRM AUTOMATION SYSTEM                  -->
 <!-- ========================================================= -->
 
 <h1 align="center">
@@ -30,25 +30,6 @@ Production-Ready AI Powered CRM Automation Platform built with FastAPI, Streamli
 
 </p>
 
----
-
-<h1 align="center">
-🤖 AI CRM Automation System
-</h1>
-
-<p align="center">
-Production-Ready AI Powered CRM Automation Platform built with FastAPI, Streamlit, PostgreSQL (Supabase), Google Gemini AI, JWT Authentication and Google Sheets Integration.
-</p>
-
-<p align="center">
-
-![Python](...)
-![FastAPI](...)
-![Streamlit](...)
-...
-
-</p>
-
 <p align="center">
 
 <a href="https://ai-crm-frontend-m0l5.onrender.com">
@@ -67,15 +48,13 @@ Production-Ready AI Powered CRM Automation Platform built with FastAPI, Streamli
 
 ---
 
-
-
 # 🚀 Project Overview
 
-AI CRM Automation is a complete Customer Relationship Management platform designed for automobile dealerships.
+AI CRM Automation is a production-ready Customer Relationship Management platform designed for automobile dealerships.
 
-Instead of simply storing customer information, the system automatically analyzes every lead using Artificial Intelligence, qualifies the customer, recommends the next action, schedules follow-ups, stores conversations, synchronizes data with Google Sheets, and provides an interactive management dashboard.
+Instead of simply storing customer information, the system automatically analyzes every lead using Google Gemini AI, qualifies the customer, assigns a lead score and priority, recommends the next sales action, synchronizes lead data with Google Sheets, and provides an interactive CRM dashboard for managing leads, appointments, follow-ups, and conversations.
 
-The project follows a production-style architecture with clear separation between API, Services, Repositories, AI modules and Frontend.
+The project follows a layered architecture with a clear separation between APIs, Services, Repositories, AI modules, Database, and Frontend.
 
 ---
 
@@ -88,22 +67,21 @@ The project follows a production-style architecture with clear separation betwee
 - Delete Lead
 - View Lead Details
 - AI Lead Qualification
-- Automatic Lead Score
-- Pipeline Management
+- Lead Score Generation
+- Pipeline Assignment
 - Priority Assignment
 
 ---
 
 ## 🤖 AI Lead Qualification
 
-Automatically generates
+Automatically generates:
 
 - Lead Score
 - Qualification Status
 - Pipeline Stage
 - Priority
-- CRM Notes
-- CRM Tags
+- AI Reason
 - Recommended Action
 - Follow-up Time
 
@@ -111,23 +89,11 @@ Powered by **Google Gemini AI**
 
 ---
 
-## 📧 AI Communication Generator
-
-Automatically creates
-
-- Professional Email Subject
-- Professional Email Body
-- WhatsApp Message
-
-Personalized according to customer information.
-
----
-
 ## 📅 Appointment Management
 
-- Schedule Appointment
+- Create Appointment
 - Update Appointment
-- Cancel Appointment
+- Delete Appointment
 - Appointment Status Tracking
 
 ---
@@ -143,13 +109,13 @@ Personalized according to customer information.
 
 ## 💬 Conversation Management
 
-Maintain complete customer communication history
+Maintain complete customer communication history.
 
-Supports
+Supported communication types:
 
 - Call
-- WhatsApp
 - Email
+- WhatsApp
 - SMS
 - Notes
 
@@ -157,15 +123,12 @@ Supports
 
 ## 📊 Dashboard
 
-Interactive Streamlit Dashboard
-
-Includes
+Interactive Streamlit Dashboard with:
 
 - KPI Cards
 - Search
 - Filters
 - AgGrid Tables
-- CSV Export
 - Responsive Layout
 
 ---
@@ -174,7 +137,7 @@ Includes
 
 JWT Authentication
 
-Role Based User System
+Role-based User Management
 
 - Admin
 - Sales Executive
@@ -183,29 +146,35 @@ Role Based User System
 
 ## 📑 Google Sheets Integration
 
-Every lead is automatically synchronized to Google Sheets.
+Every newly created lead is automatically synchronized with Google Sheets for reporting and CRM backup.
 
 ---
 
-# 🏗 Architecture
+# 🏗️ Architecture
 
-```
-                Streamlit Frontend
-                        │
-                        ▼
-                FastAPI REST API
-                        │
-        ┌───────────────┼────────────────┐
-        ▼               ▼                ▼
- Gemini AI       PostgreSQL        Google Sheets
-                        │
-                        ▼
-                SQLAlchemy ORM
+```text
+                 Streamlit Frontend
+                         │
+                         ▼
+                  FastAPI REST API
+                         │
+       ┌─────────────────┼─────────────────┐
+       ▼                 ▼                 ▼
+ Authentication     CRM Services      AI Services
+       │                 │                 │
+       └─────────────────┼─────────────────┘
+                         ▼
+                  Repository Layer
+                         │
+       ┌─────────────────┼─────────────────┐
+       ▼                 ▼                 ▼
+ PostgreSQL       Google Gemini AI   Google Sheets
+ (Supabase)         Lead Analysis      Auto Sync
 ```
 
 ---
 
-# ⚙ Tech Stack
+# ⚙️ Tech Stack
 
 ## Backend
 
@@ -229,8 +198,7 @@ Every lead is automatically synchronized to Google Sheets.
 
 ## Database
 
-- PostgreSQL
-- Supabase
+- PostgreSQL (Supabase)
 
 ## Integrations
 
@@ -240,14 +208,11 @@ Every lead is automatically synchronized to Google Sheets.
 
 # 📂 Project Structure
 
-```
+```text
 AI_CRM_Automation/
 
-│
 ├── backend/
 │   ├── app/
-│   │
-│   ├── ai/
 │   ├── api/
 │   ├── core/
 │   ├── database/
@@ -255,13 +220,11 @@ AI_CRM_Automation/
 │   ├── repositories/
 │   ├── schemas/
 │   ├── services/
-│   │
 │   └── main.py
 │
 ├── frontend/
 │   ├── components/
 │   ├── pages/
-│   ├── services/
 │   ├── styles/
 │   ├── utils/
 │   └── Home.py
@@ -273,60 +236,42 @@ AI_CRM_Automation/
 
 # 🔄 CRM Workflow
 
-```
+```text
 Lead Created
-
-        │
-
-        ▼
-
-AI Qualification
-
-        │
-
-        ▼
-
+      │
+      ▼
+Duplicate Validation
+      │
+      ▼
+Gemini AI Qualification
+      │
+      ▼
+Lead Score Generated
+      │
+      ▼
+Priority Assigned
+      │
+      ▼
+Lead Saved to PostgreSQL
+      │
+      ▼
 Google Sheets Sync
-
-        │
-
-        ▼
-
-Recommended Action
-
-        │
-
-        ▼
-
-Conversation
-
-        │
-
-        ▼
-
-Follow-up
-
-        │
-
-        ▼
-
-Appointment
-
-        │
-
-        ▼
-
-Sales Conversion
+      │
+      ▼
+Activity Logged
+      │
+      ▼
+Dashboard Updated
 ```
 
 ---
 
-# 🛠 Installation
+# 🛠️ Installation
 
-Clone Repository
+Clone the repository:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/AI_CRM_Automation.git
+git clone https://github.com/bhupeshkd/AI_CRM_Automation.git
 
 cd AI_CRM_Automation
 ```
@@ -357,11 +302,11 @@ streamlit run Home.py
 
 ---
 
-# Environment Variables
+# 🔑 Environment Variables
 
-Create `.env`
+Create a `.env` file:
 
-```
+```env
 DATABASE_URL=
 
 SECRET_KEY=
@@ -381,62 +326,67 @@ GOOGLE_CREDENTIALS=
 
 ---
 
-# API Documentation
+# 📡 API Documentation
 
-FastAPI automatically provides
+### Swagger UI
 
+```text
+https://ai-crm-backend-ibos.onrender.com/docs
 ```
-/docs
 
-/redoc
+### ReDoc
+
+```text
+https://ai-crm-backend-ibos.onrender.com/redoc
 ```
 
 ---
 
-# Screenshots
+# 📸 Screenshots
 
-Coming Soon
+> Screenshots will be added soon.
 
 - Login
 - Dashboard
 - Lead Management
-- Appointment
-- Follow-up
-- Conversation
+- Appointment Management
+- Follow-up Management
+- Conversation Management
 
 ---
 
-# Future Improvements
+# 🚀 Future Improvements
 
-- Email Integration
-- WhatsApp API
-- Docker
-- CI/CD
-- Background Tasks
-- Notifications
-- Analytics Dashboard
-- Role Based Permissions
-- Unit Testing
+- Email Notifications
+- WhatsApp Business API
+- SMS Integration
+- Background Job Scheduler
+- Redis + Celery
+- Docker Support
+- CI/CD Pipeline
+- AI Voice Assistant
+- Advanced Analytics Dashboard
+- RAG-based Customer Knowledge Assistant
 
 ---
 
-# Author
+# 👨‍💻 Author
 
 **Bhupesh Kumar Dewangan**
 
 Python Developer • AI Developer
 
-GitHub
+**GitHub**
 
 https://github.com/bhupeshkd
 
-LinkedIn
+**LinkedIn**
 
 https://www.linkedin.com/in/bhupesh-dew
 
 ---
 
-# License
+# 📄 License
 
 This project is licensed under the MIT License.
 
