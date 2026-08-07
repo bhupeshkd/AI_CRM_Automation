@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.ai.qualification import LeadQualification
 from app.ai.communication import AICommunication
+from app.ai.appointment_recommendation import AppointmentRecommendation
 
 from app.repositories.lead_repository import LeadRepository
 from app.repositories.activity_repository import ActivityRepository
@@ -86,6 +87,24 @@ class LeadService:
             print("AI Communication:")
             print(communication)
 
+            # ==========================================
+            # AI Appointment Recommendation
+            # ==========================================
+
+            print("Generating AI Appointment Recommendation...")
+
+            recommendation = AppointmentRecommendation.generate(
+                priority=result["priority"],
+                qualification_status=result["qualification_status"],
+                follow_up_in_hours=result["follow_up_in_hours"],
+                vehicle_interest=lead.vehicle_interest,
+                purchase_timeline=lead.purchase_timeline,
+            )
+
+            print("Appointment Recommendation:")
+            print(recommendation)
+
+
         except Exception as e:
             print(f"AI Error: {type(e).__name__}: {e}")
 
@@ -119,6 +138,13 @@ class LeadService:
                     "Our sales team will connect with you soon."
                 )
             }
+            recommendation = AppointmentRecommendation.generate(
+                priority=result["priority"],
+                qualification_status=result["qualification_status"],
+                follow_up_in_hours=result["follow_up_in_hours"],
+                vehicle_interest=lead.vehicle_interest,
+                purchase_timeline=lead.purchase_timeline,
+        )
 
             print("Fallback Rule Engine Used.")
 
@@ -141,6 +167,22 @@ class LeadService:
 
         db_lead.tags = ", ".join(result["tags"])
         db_lead.notes = result["notes"]
+
+        # ==========================================
+        # Save AI Appointment Recommendation
+        # ==========================================
+
+        db_lead.suggested_appointment_at = recommendation[
+            "suggested_appointment_at"
+        ]
+
+        db_lead.suggested_meeting_type = recommendation[
+            "suggested_meeting_type"
+        ]
+
+        db_lead.appointment_recommendation_status = recommendation[
+            "appointment_recommendation_status"
+        ]
 
         db.commit()
         db.refresh(db_lead)

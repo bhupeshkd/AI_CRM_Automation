@@ -1,5 +1,6 @@
 import streamlit as st
 
+from datetime import datetime
 from components.dialogs import (
     edit_lead_dialog,
     delete_lead_dialog,
@@ -9,7 +10,11 @@ from components.dialogs import (
     delete_followup_dialog,
     edit_conversation_dialog,
     delete_conversation_dialog,
+    add_appointment_dialog,
+    add_conversation_dialog
 )
+
+
 
 
 # ==========================================
@@ -48,11 +53,50 @@ def render_lead_details(lead: dict):
 
     st.divider()
 
+    suggested = lead.get("suggested_appointment_at")
+
+    if suggested:
+        try:
+            suggested = datetime.fromisoformat(suggested).strftime(
+                "%d %b %Y • %I:%M %p"
+            )
+        except Exception:
+            pass
+
     st.markdown("### 🤖 AI Recommendation")
     st.info(lead.get("recommended_action", "No Recommendation"))
 
     st.markdown("### 🧠 AI Reason")
     st.write(lead.get("ai_reason", "No Reason Available"))
+
+    st.divider()
+
+    st.subheader("📅 Appointment Suggestion")
+
+    left, right = st.columns(2)
+
+    with left:
+        st.write(f"**📅 Suggested Date :** {suggested or '-'}")
+        st.write(
+            f"**🚗 Meeting Type :** "
+            f"{lead.get('suggested_meeting_type', '-')}"
+        )
+
+    with right:
+        status = lead.get(
+            "appointment_recommendation_status",
+            "N/A"
+        )
+
+        if status == "Awaiting Confirmation":
+            st.warning("🟡 Awaiting Confirmation")
+        elif status == "Confirmed":
+            st.success("🟢 Confirmed")
+        elif status == "Rejected":
+            st.error("🔴 Rejected")
+        else:
+            st.info(status)
+    st.divider()
 
     st.markdown("### 📝 Notes")
     st.write(lead.get("notes", "No Notes"))
@@ -73,18 +117,30 @@ def render_lead_details(lead: dict):
             delete_lead_dialog(lead)
 
     with c3:
-        st.button(
-            "📅 Appointment",
-            use_container_width=True,
-            key=f"appointment_{lead['id']}"
-        )
 
-    with c4:
-        st.button(
-            "💬 Conversation",
-            use_container_width=True,
-            key=f"conversation_{lead['id']}"
-        )
+        if (
+            lead.get("appointment_recommendation_status")
+            == "Awaiting Confirmation"
+        ):
+
+            if st.button(
+                "📅 Book Appointment",
+                use_container_width=True,
+                key=f"appointment_{lead['id']}"
+            ):  
+                add_appointment_dialog(lead)
+
+        else:
+
+            st.success("✅ Appointment Processed")
+
+        with c4:
+            if st.button(
+                "💬 Conversation",
+                use_container_width=True,
+                key=f"conversation_{lead['id']}"
+            ):
+                add_conversation_dialog(lead)
 
 
 # ==========================================

@@ -46,6 +46,14 @@ class LeadResponse(BaseModel):
     ai_reason: str | None = None
 
     # ==========================
+    # AI Appointment Recommendation
+    # ==========================
+
+    suggested_appointment_at: datetime | None = None
+    suggested_meeting_type: str | None = None
+    appointment_recommendation_status: str | None = None
+
+    # ==========================
     # CRM Fields
     # ==========================
 
@@ -74,3 +82,11 @@ class LeadUpdate(BaseModel):
 
     notes: str | None = None
     tags: str | None = None
+
+    # ==========================
+    # AI Appointment
+    # ==========================
+
+    suggested_appointment_at: datetime | None = None
+    suggested_meeting_type: str | None = None
+    appointment_recommendation_status: str | None = None

@@ -292,37 +292,81 @@ from services.appointment_service import (
 
 
 @st.dialog("📅 Schedule Appointment", width="large")
-def add_appointment_dialog():
+def add_appointment_dialog(lead: dict | None = None):
 
-    st.subheader("Schedule Appointment")
+    if lead:
+        st.success(
+            f"Scheduling appointment for **{lead['full_name']}**"
+        )
+    else:
+        st.subheader("Schedule Appointment")
 
-    lead_id = st.text_input(
-        "Lead ID *"
-    )
+    lead_id = lead["id"] if lead else ""
+
+    if lead:
+        st.text_input(
+            "Customer",
+            value=lead["full_name"],
+            disabled=True
+        )
 
     col1, col2 = st.columns(2)
 
     with col1:
 
+        default_date = datetime.now().date()
+
+        if lead and lead.get("suggested_appointment_at"):
+            default_date = datetime.fromisoformat(
+                lead["suggested_appointment_at"]
+            ).date()
+
         appointment_date = st.date_input(
-            "Appointment Date"
+            "Appointment Date",
+            value=default_date
         )
 
     with col2:
+        # appointment_time = st.time_input(
+        #     "Appointment Time"
+        # )
+        default_time = datetime.now().time()
+
+        if (
+            lead
+            and lead.get("suggested_appointment_at")
+        ):
+            default_time = datetime.fromisoformat(
+                lead["suggested_appointment_at"]
+            ).time()
 
         appointment_time = st.time_input(
-            "Appointment Time"
+            "Appointment Time",
+            value=default_time
+        )
+
+
+
+    meeting_options = [
+        "Test Drive",
+        "Showroom Visit",
+        "Phone Call",
+        "Video Call"
+    ]
+
+    default_type = "Test Drive"
+
+    if lead:
+        default_type = lead.get(
+            "suggested_meeting_type",
+            "Test Drive"
         )
 
     meeting_type = st.selectbox(
         "Meeting Type",
-        [
-            "Test Drive",
-            "Showroom Visit",
-            "Phone Call",
-            "Video Call",
-        ]
-    )
+        meeting_options,
+        index=meeting_options.index(default_type)
+)
 
     c1, c2 = st.columns(2)
 
@@ -349,10 +393,8 @@ def add_appointment_dialog():
 
     if submit:
 
-        if not lead_id.strip():
-
+        if not lead_id:
             st.error("Lead ID is required.")
-
             st.stop()
 
         appointment_datetime = datetime.combine(
@@ -370,6 +412,17 @@ def add_appointment_dialog():
 
         if response.status_code == 201:
 
+            update_response = update_lead(
+                lead_id,
+                {
+                    "appointment_recommendation_status": "Confirmed"
+                }
+            )
+
+            if update_response.status_code not in (200, 204):
+                st.error(update_response.text)
+                st.stop()
+
             st.toast(
                 "Appointment Scheduled",
                 icon="🎉"
@@ -380,13 +433,11 @@ def add_appointment_dialog():
         else:
 
             try:
-
                 st.error(
                     response.json()["detail"]
                 )
 
             except Exception:
-
                 st.error(response.text)
 
 
@@ -745,13 +796,27 @@ from services.conversation_service import (
 
 
 @st.dialog("💬 Add Conversation", width="large")
-def add_conversation_dialog():
+def add_conversation_dialog(
+    lead: dict | None = None
+):
 
     st.subheader("New Conversation")
 
-    lead_id = st.text_input(
-        "Lead ID *"
-    )
+    if lead:
+        st.success(
+            f"Creating conversation for **{lead['full_name']}**"
+        )
+    else:
+        st.subheader("New Conversation")
+
+    lead_id = lead["id"] if lead else ""
+
+    if lead:
+        st.text_input(
+            "Customer",
+            value=lead["full_name"],
+            disabled=True
+        )
 
     sender = st.selectbox(
         "Sender",
@@ -802,7 +867,7 @@ def add_conversation_dialog():
 
     if submit:
 
-        if not lead_id.strip():
+        if not lead_id:
 
             st.error(
                 "Lead ID required."

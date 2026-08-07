@@ -143,3 +143,25 @@ class Lead(Base):
         onupdate=datetime.utcnow,
         nullable=False
     )
+
+    # ==========================
+    # AI Appointment Recommendation
+    # ==========================
+
+    suggested_appointment_at: Mapped[datetime | None] = mapped_column(
+        DateTime,
+        nullable=True
+    )
+
+    suggested_meeting_type: Mapped[str | None] = mapped_column(
+        String(50),
+        nullable=True,
+        default="Test Drive"
+    )
+
+    appointment_recommendation_status: Mapped[str | None] = mapped_column(
+        String(50),
+        nullable=True,
+        default="Awaiting Confirmation"
+    )
+        
