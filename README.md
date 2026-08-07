@@ -401,8 +401,8 @@ Interactive API documentation is available through Swagger UI and ReDoc.
 
 | Documentation | URL |
 |---------------|-----|
-| Swagger UI | https://YOUR_BACKEND.onrender.com/docs |
-| ReDoc | https://YOUR_BACKEND.onrender.com/redoc |
+| Swagger UI | https://ai-crm-backend-ibos.onrender.com/docs |
+| ReDoc | https://ai-crm-backend-ibos.onrender.com/redo |
 
 ---
 
@@ -417,33 +417,26 @@ Interactive API documentation is available through Swagger UI and ReDoc.
 
 # 📸 Screenshots
 
-## 📊 Dashboard
-
-> *(Add Dashboard Screenshot Here)*
-
----
-
-## 👥 Lead Management
-
-> *(Add Lead Management Screenshot Here)*
-
----
-
 ## 📅 Appointment Management
 
-> *(Add Appointment Screenshot Here)*
+<img width="1919" height="1037" alt="image" src="https://github.com/user-attachments/assets/d9109ff8-bf76-4463-9f61-cede9b8a310c" />
+
 
 ---
+
+## 📞Follow-Up Management
+
+<img width="1919" height="1037" alt="image" src="https://github.com/user-attachments/assets/dbf5d1fd-2af2-4fc3-a0ac-9d2affe1720c" />
+
+
+---
+
 
 ## 💬 Conversation Management
 
-> *(Add Conversation Screenshot Here)*
+<img width="1919" height="1042" alt="image" src="https://github.com/user-attachments/assets/31b2e231-a788-446f-98ad-757f6c925d0e" />
 
----
 
-## 📝 Activity Timeline
-
-> *(Add Activity Timeline Screenshot Here)*
 
 # 👨‍💻 Author
 
